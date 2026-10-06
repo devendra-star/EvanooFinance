@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, TextInput } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Slider from '@react-native-community/slider';
 import { Surface, Text } from 'react-native-paper';
@@ -18,6 +18,23 @@ const EMICalculator = ({ }: CalcScreenProps) => {
   const [amount, setAmount] = useState(500000);
   const [rate, setRate] = useState(10.5);
   const [tenure, setTenure] = useState(36);
+  
+  const [amountStr, setAmountStr] = useState("500000");
+  const [rateStr, setRateStr] = useState("10.5");
+  const [tenureStr, setTenureStr] = useState("36");
+
+  useEffect(() => {
+    setAmountStr(amount.toString());
+  }, [amount]);
+
+  useEffect(() => {
+    setRateStr(rate.toString());
+  }, [rate]);
+
+  useEffect(() => {
+    setTenureStr(tenure.toString());
+  }, [tenure]);
+
   const [apiResults, setApiResults] = useState({
     monthlyEmi: 0,
     totalPayment: 0,
@@ -68,61 +85,103 @@ const EMICalculator = ({ }: CalcScreenProps) => {
         >
           <Text variant="titleMedium">EMI Calculator</Text>
           {/* Amount */}
-          <View style={styles.sliderRow}>
-            <Text
-              variant="bodySmall"
-              style={{ color: colors.onSurfaceVariant }}
-            >
-              {'Amount'}
-            </Text>
-            <Text variant="titleSmall">{formatAmount(amount)}</Text>
+          <View style={styles.metricGroup}>
+            <View style={styles.metricHeader}>
+              <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant }}>
+                Loan Amount
+              </Text>
+              <View style={[styles.inputBox, { borderColor: colors.outlineVariant, backgroundColor: colors.surface }]}>
+                <Text style={[styles.inputPrefix, { color: colors.onSurfaceVariant }]}>₹</Text>
+                <TextInput
+                  style={[styles.input, { color: colors.onSurface }]}
+                  value={amountStr}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    setAmountStr(text);
+                    const val = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                    if (!isNaN(val)) setAmount(val);
+                  }}
+                />
+              </View>
+            </View>
+            <Slider
+              minimumValue={50000}
+              maximumValue={5000000}
+              step={10000}
+              value={amount}
+              onValueChange={setAmount}
+              minimumTrackTintColor={colors.primary}
+              maximumTrackTintColor={colors.outlineVariant}
+              thumbTintColor={colors.primary}
+              style={styles.slider}
+            />
           </View>
-          <Slider
-            minimumValue={50000}
-            maximumValue={5000000}
-            step={10000}
-            value={amount}
-            onValueChange={setAmount}
-            minimumTrackTintColor={colors.primary}
-            maximumTrackTintColor={colors.outlineVariant}
-            thumbTintColor={colors.primary}
-            style={styles.slider}
-          />
-          <View style={styles.sliderRow}>
-            <Text
-              variant="bodySmall"
-              style={{ color: colors.onSurfaceVariant }}
-            >
-              {'Interest rate'}
-            </Text>
-            <Text variant="titleSmall">{rate.toFixed(2)}%</Text>
+
+          {/* Interest Rate */}
+          <View style={styles.metricGroup}>
+            <View style={styles.metricHeader}>
+              <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant }}>
+                Interest Rate
+              </Text>
+              <View style={[styles.inputBox, { borderColor: colors.outlineVariant, backgroundColor: colors.surface }]}>
+                <TextInput
+                  style={[styles.input, { color: colors.onSurface }]}
+                  value={rateStr}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    setRateStr(text);
+                    const val = parseFloat(text.replace(/[^0-9.]/g, ''));
+                    if (!isNaN(val)) setRate(val);
+                  }}
+                />
+                <Text style={[styles.inputSuffix, { color: colors.onSurfaceVariant }]}>%</Text>
+              </View>
+            </View>
+            <Slider
+              minimumValue={5}
+              maximumValue={20}
+              step={0.05}
+              value={rate}
+              onValueChange={setRate}
+              minimumTrackTintColor={colors.primary}
+              maximumTrackTintColor={colors.outlineVariant}
+              thumbTintColor={colors.primary}
+              style={styles.slider}
+            />
           </View>
-          <Slider
-            minimumValue={5}
-            maximumValue={20}
-            step={0.05}
-            value={rate}
-            onValueChange={setRate}
-            minimumTrackTintColor={colors.primary}
-            maximumTrackTintColor={colors.outlineVariant}
-            thumbTintColor={colors.primary}
-            style={styles.slider}
-          />
-          <View style={styles.sliderRow}>
-            <Text variant="bodySmall">{'Tenure (months)'}</Text>
-            <Text variant="titleSmall">{`${tenure} m`}</Text>
+
+          {/* Tenure */}
+          <View style={styles.metricGroup}>
+            <View style={styles.metricHeader}>
+              <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant }}>
+                Tenure
+              </Text>
+              <View style={[styles.inputBox, { borderColor: colors.outlineVariant, backgroundColor: colors.surface }]}>
+                <TextInput
+                  style={[styles.input, { color: colors.onSurface }]}
+                  value={tenureStr}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    setTenureStr(text);
+                    const val = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                    if (!isNaN(val)) setTenure(val);
+                  }}
+                />
+                <Text style={[styles.inputSuffix, { color: colors.onSurfaceVariant }]}>mo</Text>
+              </View>
+            </View>
+            <Slider
+              minimumValue={3}
+              maximumValue={84}
+              step={1}
+              value={tenure}
+              onValueChange={setTenure}
+              minimumTrackTintColor={colors.primary}
+              maximumTrackTintColor={colors.outlineVariant}
+              thumbTintColor={colors.primary}
+              style={styles.slider}
+            />
           </View>
-          <Slider
-            minimumValue={3}
-            maximumValue={84}
-            step={1}
-            value={tenure}
-            onValueChange={setTenure}
-            minimumTrackTintColor={colors.primary}
-            maximumTrackTintColor={colors.outlineVariant}
-            thumbTintColor={colors.primary}
-            style={styles.slider}
-          />
           <ResultCards emi={apiResults.monthlyEmi} interest={apiResults.totalInterest} total={apiResults.totalPayment} />
         </Surface>
       </ScrollView>
@@ -143,14 +202,45 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
   },
-  sliderRow: {
+  metricGroup: {
+    marginBottom: 10,
+    marginTop: 4,
+  },
+  metricHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10,
+    marginBottom: 0,
+  },
+  inputBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    height: 36,
+    minWidth: 110,
+  },
+  inputPrefix: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginRight: 4,
+  },
+  inputSuffix: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginLeft: 4,
+  },
+  input: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'right',
+    padding: 0,
+    margin: 0,
   },
   slider: {
     width: '100%',
-    height: 20,
+    height: 35,
   },
 });

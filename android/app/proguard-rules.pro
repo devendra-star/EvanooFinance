@@ -8,3 +8,10 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+-keep class com.evanoo.BuildConfig { *; }
+-keep class com.evanoo.dev.BuildConfig { *; }
+
+# ProGuard rules for react-native-device-info:
+-keep class com.android.installreferrer.api.** {
+  *;
+}

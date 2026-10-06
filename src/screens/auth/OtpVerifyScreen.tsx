@@ -34,9 +34,7 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
   const mobileNumber = props.route.params.mobileNumber;
   // const { mobileNumber } = route.params;
   const dispatch = useAppDispatch();
-  const authError = useAppSelector(state => state.auth.error);
   const status = useAppSelector(state => state.auth.status);
-  const isEmail = mobileNumber.includes('@');
 
   const formik = useFormik({
     initialValues: { otp: '' },
@@ -48,8 +46,8 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
         ).unwrap();
         // Use replace so user can't hit back button to get stuck in OTP screen
         if (result.isMpinSet) {
-          dispatch(completeLogin());
           dispatch(lockApp());
+          dispatch(completeLogin());
         } else {
           props.navigation.replace('SetPin');
         }
@@ -80,27 +78,31 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
           backgroundColor: colors.background,
         }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps='always'
       >
-        {/* HEADER GRADIENT SECTION */}
         <LinearGradient
-          colors={['#1DA1F2', '#0295DB']} // Bright blue gradient from mockup
+          colors={['#1DA1F2', '#0295DB']}
+          useAngle={true}
+          angle={90}
+          locations={[0, 1]}
           style={styles.headerGradient}
         >
-          {/* Logo */}
           <View style={styles.logoRow}>
             <View style={styles.logoCircle}>
               <TrendingUp size={20} color="#0295DB" strokeWidth={3} />
             </View>
-            <Text variant="titleMedium" style={styles.logoText}>
-              EVANOO
+            <Text variant="titleMedium" style={{ color: colors.surface }}>
+              {'EVANOO'}
             </Text>
           </View>
-
-          <Text variant="displaySmall" style={styles.welcomeText}>
-            Welcome back
+          <Text
+            variant="headlineLarge"
+            style={{ color: colors.surface, marginBottom: 8 }}
+          >
+            {'Welcome back'}
           </Text>
-          <Text variant="bodyLarge" style={styles.subtitleText}>
-            Sign in to check your credit score and unlock offers.
+          <Text variant="bodyMedium" style={{ color: colors.surface }}>
+            {"Sign in to check your credit score and unlock offers."}
           </Text>
         </LinearGradient>
 
@@ -110,20 +112,19 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
           elevation={2}
         >
           <Text
-            variant="headlineSmall"
+            variant="titleLarge"
             style={{
-              fontWeight: '700',
               color: colors.onSurface,
               marginBottom: 8,
             }}
           >
-            Enter OTP
+            {"Enter OTP"}
           </Text>
           <Text
             variant="bodyMedium"
             style={{ color: colors.onSurfaceVariant, marginBottom: 24 }}
           >
-            We sent a 6-digit code to your {isEmail ? 'email' : 'mobile'}
+            {"We sent a 6-digit code to your mobile"}
           </Text>
 
           {/* OTP INPUT FIELD */}
@@ -177,14 +178,7 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
               {formik.errors.otp}
             </Text>
           ) : null}
-          {authError ? (
-            <Text
-              variant="labelSmall"
-              style={{ color: colors.error, marginTop: 4, marginLeft: 4 }}
-            >
-              {authError}
-            </Text>
-          ) : null}
+
 
           {/* VERIFY BUTTON */}
           <TouchableOpacity
@@ -196,25 +190,20 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
               {status === 'loading' ? 'Verifying...' : 'Verify & Continue'}
             </Text>
           </TouchableOpacity>
-
-          {/* CHANGE NUMBER LINK */}
           <TouchableOpacity
             onPress={() => props.navigation.goBack()}
             style={{ marginTop: 24, alignItems: 'center' }}
           >
             <Text
-              variant="titleSmall"
+              variant="bodySmall"
               style={{
-                color: colors.onSurfaceVariant,
-                fontWeight: '600',
+                color: colors.primary,
               }}
             >
-              Change {isEmail ? 'email' : 'number'}
+              {"Change number"}
             </Text>
           </TouchableOpacity>
         </Surface>
-
-        {/* FOOTER */}
         <View style={styles.footer}>
           <ShieldCheck
             size={16}

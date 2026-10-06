@@ -18,6 +18,7 @@ export type CustomTextInputProps = TextInputProps & {
   error?: boolean;
   errorText?: string | null | false;
   containerStyle?: StyleProp<ViewStyle>;
+  rightIcon?: React.ReactNode;
 };
 
 type NativeTextInputRef = React.ComponentRef<typeof NativeTextInput>;
@@ -29,7 +30,7 @@ const TextInput = forwardRef<NativeTextInputRef, CustomTextInputProps>(
     return (
       <View style={props.containerStyle}>
         {props.label ? (
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', marginBottom: 2 }}>
             <Text variant="bodyMedium">{props.label}</Text>
             {props.isMandatory ? (
               <Text
@@ -71,6 +72,9 @@ const TextInput = forwardRef<NativeTextInputRef, CustomTextInputProps>(
             placeholderTextColor={colors.onSurfaceVariant}
             style={[styles.textInput, { color: colors.onSurface }, props.style]}
           />
+          {props.rightIcon ? (
+            <View >{props.rightIcon}</View>
+          ) : null}
         </View>
         {props.error ? (
           <Text variant="bodySmall" style={{ color: colors.error }}>

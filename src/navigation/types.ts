@@ -16,6 +16,7 @@ export type StackParamList = {
   AppLock: undefined;
   Login: undefined;
   OtpVerify: { mobileNumber: string };
+  Registration: undefined;
   SetPin: undefined;
   MainTabs: NavigatorScreenParams<BottomTabParamList>;
   // Loan / card flowsá
@@ -39,6 +40,10 @@ export type LoginScreenProps = NativeStackScreenProps<StackParamList, 'Login'>;
 export type OtpVerifyScreenProps = NativeStackScreenProps<
   StackParamList,
   'OtpVerify'
+>;
+export type RegistrationScreenProps = NativeStackScreenProps<
+  StackParamList,
+  'Registration'
 >;
 export type SetPinScreenProps = NativeStackScreenProps<
   StackParamList,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -16,7 +16,7 @@ import {
   Phone,
   ArrowRight,
   ShieldCheck,
-  Mail,
+  Smartphone,
 } from 'lucide-react-native';
 import { useAppDispatch } from '../../hook';
 import { sendOtp } from '../../store/slices/authSlice';
@@ -24,7 +24,7 @@ import { LoginScreenProps } from '../../navigation/types';
 import Container from '../../components/Container';
 import { WINDOW_WIDTH } from '../../configs';
 import { useAppTheme } from '../../hook';
-import { TextInput } from '../../components';
+import { TextInput, GradientButton } from '../../components';
 import Svg, { Path } from 'react-native-svg';
 
 const mobileSchema = Yup.object({
@@ -33,30 +33,21 @@ const mobileSchema = Yup.object({
     .required('Mobile number is required'),
 });
 
-const emailSchema = Yup.object({
-  email: Yup.string()
-    .email('Enter a valid email address')
-    .required('Email address is required'),
-});
-
 const LoginScreen: React.FC<LoginScreenProps> = props => {
   const { colors } = useAppTheme();
   const dispatch = useAppDispatch();
-  const [tab, setTab] = useState<'mobile' | 'email'>('mobile');
 
   const formik = useFormik({
-    initialValues: { mobileNumber: '', email: '' },
-    validationSchema: tab === 'mobile' ? mobileSchema : emailSchema,
+    initialValues: { mobileNumber: '' },
+    validationSchema: mobileSchema,
     onSubmit: async values => {
       try {
-        const identifier =
-          tab === 'mobile' ? values.mobileNumber : values.email;
+        const identifier = values.mobileNumber;
         if (!identifier) return;
-        await dispatch(sendOtp(identifier)).unwrap();
+        const result = await dispatch(sendOtp(identifier)).unwrap();
+        Alert.alert('OTP', String((result as any)?.data?.otp));
         props.navigation.navigate('OtpVerify', { mobileNumber: identifier });
       } catch (error: any) {
-        // console.error('sendOtp error:', error);
-        // Alert.alert('Error', error?.message || 'Failed to send OTP');
       }
     },
   });
@@ -73,9 +64,14 @@ const LoginScreen: React.FC<LoginScreenProps> = props => {
           backgroundColor: colors.background,
         }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps='always'
+
       >
         <LinearGradient
           colors={['#1DA1F2', '#0295DB']}
+          useAngle={true}
+          angle={90}
+          locations={[0, 1]}
           style={styles.headerGradient}
         >
           <View style={styles.logoRow}>
@@ -85,19 +81,19 @@ const LoginScreen: React.FC<LoginScreenProps> = props => {
                 { backgroundColor: colors.background },
               ]}
             >
-              <TrendingUp size={20} color="#0295DB" strokeWidth={3} />
+              <TrendingUp size={20} color={colors.primary} />
             </View>
             <Text variant="titleMedium" style={{ color: colors.surface }}>
               {'EVANOO'}
             </Text>
           </View>
           <Text
-            variant="displaySmall"
+            variant="headlineLarge"
             style={{ color: colors.surface, marginBottom: 8 }}
           >
             {'Welcome back'}
           </Text>
-          <Text variant="bodyLarge" style={styles.subtitleText}>
+          <Text variant="bodyMedium" style={{ color: colors.surface }}>
             {'Sign in to check your credit score and unlock offers.'}
           </Text>
         </LinearGradient>
@@ -105,153 +101,36 @@ const LoginScreen: React.FC<LoginScreenProps> = props => {
           style={[styles.loginCard, { backgroundColor: colors.surface }]}
           elevation={2}
         >
-          <View
-            style={[styles.tabRow, { backgroundColor: colors.surfaceVariant }]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.tab,
-                tab === 'mobile' && [
-                  styles.activeTab,
-                  {
-                    backgroundColor: colors.surface,
-                  },
-                ],
-              ]}
-              onPress={() => setTab('mobile')}
-            >
-              <Text
-                variant={tab === 'mobile' ? 'labelLarge' : 'titleSmall'}
-                style={{
-                  color:
-                    tab === 'mobile'
-                      ? colors.onSurface
-                      : colors.onSurfaceVariant,
-                }}
-              >
-                {'Mobile'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.tab,
-                tab === 'email' && [
-                  styles.activeTab,
-                  {
-                    backgroundColor: colors.surface,
-                  },
-                ],
-                ,
-              ]}
-              onPress={() => setTab('email')}
-            >
-              <Text
-                variant={tab === 'email' ? 'labelLarge' : 'titleSmall'}
-                style={{
-                  color:
-                    tab === 'email'
-                      ? colors.onSurface
-                      : colors.onSurfaceVariant,
-                }}
-              >
-                {'Email'}
-              </Text>
-            </TouchableOpacity>
+          <View>
+            <TextInput
+              label="Mobile number"
+              leftIcon={<Phone size={18} color={colors.onSurfaceVariant} />}
+              leftText="+91"
+              placeholder="98765 43210"
+              keyboardType="number-pad"
+              maxLength={10}
+              value={formik.values.mobileNumber}
+              onChangeText={formik.handleChange('mobileNumber')}
+              onBlur={formik.handleBlur('mobileNumber')}
+              error={
+                !!(formik.touched.mobileNumber && formik.errors.mobileNumber)
+              }
+              errorText={
+                formik.touched.mobileNumber && formik.errors.mobileNumber
+                  ? formik.errors.mobileNumber
+                  : null
+              }
+            />
+            <GradientButton
+              title="Send OTP"
+              loadingTitle="Sending..."
+              loading={formik.isSubmitting}
+              onPress={() => formik.handleSubmit()}
+              icon={<ArrowRight size={18} color={colors.onPrimary} />}
+              iconPosition="right"
+              style={{ marginTop: 10 }}
+            />
           </View>
-          {tab === 'mobile' ? (
-            <View>
-              <TextInput
-                label="Mobile number"
-                leftIcon={<Phone size={18} color={colors.onSurfaceVariant} />}
-                leftText="+91"
-                placeholder="98765 43210"
-                keyboardType="number-pad"
-                maxLength={10}
-                value={formik.values.mobileNumber}
-                onChangeText={formik.handleChange('mobileNumber')}
-                onBlur={formik.handleBlur('mobileNumber')}
-                error={
-                  !!(formik.touched.mobileNumber && formik.errors.mobileNumber)
-                }
-                errorText={
-                  formik.touched.mobileNumber && formik.errors.mobileNumber
-                    ? formik.errors.mobileNumber
-                    : null
-                }
-              />
-              <TouchableOpacity
-                onPress={() => formik.handleSubmit()}
-                disabled={formik.isSubmitting}
-                activeOpacity={0.8}
-              >
-                <LinearGradient
-                  colors={[
-                    colors.buttonGradientStart,
-                    colors.buttonGradientEnd,
-                  ]}
-                  style={styles.sendBtn}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <Text variant="titleMedium" style={{ color: '#FFFFFF' }}>
-                    {formik.isSubmitting ? 'Sending...' : 'Send OTP'}
-                  </Text>
-                  {!formik.isSubmitting && (
-                    <ArrowRight
-                      size={18}
-                      color="#FFFFFF"
-                      style={{ marginLeft: 8 }}
-                    />
-                  )}
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View>
-              <TextInput
-                label="Email address"
-                leftIcon={<Mail size={18} color={colors.onSurfaceVariant} />}
-                placeholder="you@example.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                value={formik.values.email}
-                onChangeText={formik.handleChange('email')}
-                onBlur={formik.handleBlur('email')}
-                error={!!(formik.touched.email && formik.errors.email)}
-                errorText={
-                  formik.touched.email && formik.errors.email
-                    ? formik.errors.email
-                    : null
-                }
-              />
-              <TouchableOpacity
-                onPress={() => formik.handleSubmit()}
-                disabled={formik.isSubmitting}
-                activeOpacity={0.8}
-              >
-                <LinearGradient
-                  colors={[
-                    colors.buttonGradientStart,
-                    colors.buttonGradientEnd,
-                  ]}
-                  style={styles.sendBtn}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                >
-                  <Text variant="titleMedium" style={{ color: '#FFFFFF' }}>
-                    {formik.isSubmitting ? 'Sending...' : 'Send OTP'}
-                  </Text>
-                  {!formik.isSubmitting && (
-                    <ArrowRight
-                      size={18}
-                      color="#FFFFFF"
-                      style={{ marginLeft: 8 }}
-                    />
-                  )}
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          )}
           <View style={styles.dividerRow}>
             <View
               style={[
@@ -350,13 +229,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 10,
   },
-  activeTab: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
   subtitleText: {
     color: 'rgba(255, 255, 255, 0.9)',
     marginBottom: 20,
@@ -365,32 +237,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginTop: -40,
     borderRadius: 24,
-    padding: 15,
+    padding: 24,
   },
-  tabRow: {
-    flexDirection: 'row',
-    borderRadius: 100,
-    padding: 4,
+  cardHeader: {
+    alignItems: 'center',
     marginBottom: 24,
   },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-    borderRadius: 100,
-  },
-  sendBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-    paddingVertical: 16,
-    marginTop: 24,
-  },
+
   dividerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 32,
+    marginTop: 24,
     marginBottom: 24,
   },
   dividerLine: {

@@ -7,6 +7,7 @@ export interface AuthState {
   isLoggedIn: boolean;
   isOtpVerified: boolean;
   mobileNumber: string | null;
+  userId: number | null;
   accessToken: string | null;
   refreshToken: string | null;
   isLocked: boolean;
@@ -22,6 +23,7 @@ const initialState: AuthState = {
   isLoggedIn: false,
   isOtpVerified: false,
   mobileNumber: null,
+  userId: null,
   accessToken: null,
   refreshToken: null,
   isLocked: false,
@@ -38,8 +40,8 @@ export const sendOtp = createAsyncThunk(
   async (mobileNumber: string, { rejectWithValue }) => {
     try {
       const payload = { identifier: mobileNumber };
-      await AuthService.requestOtp(payload);
-      return { mobileNumber };
+      const response = await AuthService.requestOtp(payload);
+      return { mobileNumber, data: response?.data || response };
     } catch (error: any) {
       return rejectWithValue(error.message || 'Something went wrong');
     }
@@ -57,7 +59,8 @@ export const verifyOtp = createAsyncThunk(
         accessToken: tokenObj?.accessToken || tokenObj?.token,
         refreshToken: tokenObj?.refreshToken || tokenObj?.refresh_token,
         mobileNumber,
-        isMpinSet: tokenObj?.isMpinSet ?? false,
+        userId: tokenObj?.userId || tokenObj?.id || null,
+        isMpinSet: tokenObj?.isMpinSet ?? tokenObj?.isPinSet ?? tokenObj?.mpinSet ?? tokenObj?.pinSet ?? false,
       };
     } catch (error: any) {
       return rejectWithValue(error.message || 'OTP verify failed');
@@ -132,6 +135,7 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.refreshToken = null;
       state.mobileNumber = null;
+      state.userId = null;
       state.isLocked = false;
       state.lastBackgroundTime = null;
       state.isBiometricEnabled = false;
@@ -180,6 +184,7 @@ const authSlice = createSlice({
           state.isLoggedIn = auth.isLoggedIn;
           state.isOtpVerified = auth.isOtpVerified;
           state.mobileNumber = auth.mobileNumber;
+          state.userId = auth.userId;
           state.accessToken = auth.accessToken;
           state.refreshToken = auth.refreshToken;
           state.lastBackgroundTime = auth.lastBackgroundTime;
@@ -216,6 +221,7 @@ const authSlice = createSlice({
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
         state.mobileNumber = action.payload.mobileNumber;
+        state.userId = action.payload.userId;
         state.isPinSet = action.payload.isMpinSet;
       })
       .addCase(verifyOtp.rejected, (state, action) => {

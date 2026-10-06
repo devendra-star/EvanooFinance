@@ -64,7 +64,7 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
     setIsSubmitting(true);
     try {
       await dispatch(setupSecurityPin({ pin })).unwrap();
-      // Skip redundant PIN verification step on fresh setup; log directly in.
+      // Complete login immediately so AppLock triggers on next launch
       dispatch(completeLogin());
     } catch (err: any) {
       const errMsg = err?.message || err;
@@ -105,6 +105,9 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
         {/* HEADER GRADIENT */}
         <LinearGradient
           colors={['#1DA1F2', '#0295DB']}
+          useAngle={true}
+          angle={90}
+          locations={[0, 1]}
           style={styles.headerGradient}
         >
           <Text variant="displaySmall" style={styles.welcomeText}>

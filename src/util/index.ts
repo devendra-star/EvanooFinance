@@ -1,6 +1,6 @@
 import { PermissionsAndroid, Platform } from "react-native";
-import { CONTENT_TYPE_FORMDATA, CONTENT_TYPE_JSON, GET_REQUEST } from "../src/configs";
-import { store } from "../src/store";
+import { CONTENT_TYPE_FORMDATA, CONTENT_TYPE_JSON, GET_REQUEST } from "../configs";
+import { store } from "../store";
 
 const intl = new Intl.NumberFormat("en-IN", {
     style: "currency",

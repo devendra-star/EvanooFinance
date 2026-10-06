@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StackParamList } from '../types';
 import LoginScreen from '../../screens/auth/LoginScreen';
 import OtpVerifyScreen from '../../screens/auth/OtpVerifyScreen';
+import RegistrationScreen from '../../screens/auth/RegistrationScreen';
 import SetPinScreen from '../../screens/auth/SetPinScreen';
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -18,6 +19,7 @@ export default function PublicStackNav() {
     >
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="OtpVerify" component={OtpVerifyScreen} />
+      <Stack.Screen name="Registration" component={RegistrationScreen} />
       <Stack.Screen name="SetPin" component={SetPinScreen} />
     </Stack.Navigator>
   );

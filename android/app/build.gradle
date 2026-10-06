@@ -1,6 +1,16 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+
+/**
+ * Ract Native Config Setup
+ */
+project.ext.envConfigFiles = [
+    "productionRelease": ".env.production",
+    "productionDebug": ".env.production",
+    "developmentRelease": ".env",
+    "developmentDebug": ".env",
+]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
@@ -58,7 +68,7 @@ react {
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -73,10 +83,34 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+def keystorePropsFile = rootProject.file("keystore.properties")
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystoreProps.load(new FileInputStream(keystorePropsFile))
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
+
+    flavorDimensions "env"
+    productFlavors {
+        production {
+            dimension "env"
+            applicationId "com.evanoo"
+            versionCode project.env.get("VERSION_CODE").toInteger()
+            versionName project.env.get("VERSION_NAME")
+            resValue "string", "app_name", project.env.get("APP_NAME")
+        }
+        development {
+            dimension "env"
+            applicationId "com.evanoo.dev"
+            versionCode project.env.get("VERSION_CODE").toInteger()
+            versionName project.env.get("VERSION_NAME")
+            resValue "string", "app_name", project.env.get("APP_NAME")
+        }
+    }
 
     namespace "com.evanoo"
     defaultConfig {
@@ -93,17 +127,33 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        // release {
+        //     if (keystorePropsFile.exists()) {
+        //         storeFile file(keystoreProps['MYAPP_UPLOAD_STORE_FILE'])
+        //         storePassword keystoreProps['MYAPP_UPLOAD_STORE_PASSWORD']
+        //         keyAlias keystoreProps['MYAPP_UPLOAD_KEY_ALIAS']
+        //         keyPassword keystoreProps['MYAPP_UPLOAD_KEY_PASSWORD']
+        //     }
+        // }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            matchingFallbacks = ['debug', 'release']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
+            shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
         }
     }
 }

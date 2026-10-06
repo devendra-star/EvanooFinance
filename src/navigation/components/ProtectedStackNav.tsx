@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StackParamList } from '../types';
+import { useAppSelector, useAppTheme } from '../../hook';
+import CustomerService from '../../services/CustomerService';
 
 import TabNavigator from './TabNavigator';
 import LoanDetailsScreen from '../../screens/home/LoanDetailsScreen';
 import CreditCardDetailsScreen from '../../screens/home/CreditCardDetailsScreen';
 import PaymentHistory from '../../screens/payment-history';
+import RegistrationScreen from '../../screens/auth/RegistrationScreen';
 
 import SupportScreen from '../../screens/support/SupportScreen';
 import HelpCenterScreen from '../../screens/support/HelpCenterScreen';
@@ -21,15 +25,48 @@ import PrivacySecurityScreen from '../../screens/profile/PrivacySecurityScreen';
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export default function ProtectedStackNav() {
+  const [initialRoute, setInitialRoute] = useState<'MainTabs' | 'Registration' | null>(null);
+  const mobileNumber = useAppSelector(state => state.auth.mobileNumber);
+  const { colors } = useAppTheme();
+
+  useEffect(() => {
+    const checkProfile = async () => {
+      if (!mobileNumber) {
+        setInitialRoute('Registration');
+        return;
+      }
+      try {
+        const response = await CustomerService.lookupCustomer(mobileNumber);
+        if (response?.data?.profileStatus === 'PROFILE_COMPLETED' || response?.data?.accountStatus === 'ACTIVE') {
+          setInitialRoute('MainTabs');
+        } else {
+          setInitialRoute('Registration');
+        }
+      } catch (err) {
+        setInitialRoute('Registration');
+      }
+    };
+    checkProfile();
+  }, [mobileNumber]);
+
+  if (!initialRoute) {
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
         orientation: 'portrait',
       }}
-      initialRouteName="MainTabs"
+      initialRouteName={initialRoute}
     >
       <Stack.Screen name="MainTabs" component={TabNavigator} />
+      <Stack.Screen name="Registration" component={RegistrationScreen} />
       <Stack.Screen name="LoanDetails" component={LoanDetailsScreen} />
       <Stack.Screen name="CreditCardDetails" component={CreditCardDetailsScreen} />
       <Stack.Screen name="PaymentHistory" component={PaymentHistory} />

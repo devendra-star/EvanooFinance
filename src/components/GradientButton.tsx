@@ -1,5 +1,11 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, StyleProp, ViewStyle, View } from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Text } from 'react-native-paper';
 import { useAppTheme } from '../hook';
@@ -34,19 +40,26 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       activeOpacity={0.8}
     >
       <LinearGradient
-        colors={[
-          colors.buttonGradientStart,
-          colors.buttonGradientEnd,
-        ]}
+        colors={[colors.buttonGradientStart, colors.buttonGradientEnd]}
+        useAngle={true}
+        angle={90}
+        locations={[0, 1]}
         style={[{ shadowColor: colors.primary }, styles.button, style]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
       >
-        <Text variant="titleMedium" style={[styles.text, { color: colors.onPrimary }]}>
-          {loading ? (loadingTitle || title) : title}
+        <Text
+          variant="titleMedium"
+          style={[styles.text, { color: colors.onPrimary }]}
+        >
+          {loading ? loadingTitle || title : title}
         </Text>
         {!loading && icon && (
-          <View style={iconPosition === 'absoluteRight' ? styles.absoluteRightIcon : styles.rightIcon}>
+          <View
+            style={
+              iconPosition === 'absoluteRight'
+                ? styles.absoluteRightIcon
+                : styles.rightIcon
+            }
+          >
             {icon}
           </View>
         )}

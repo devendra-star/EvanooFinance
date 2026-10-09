@@ -258,8 +258,9 @@ const styles = StyleSheet.create({
   loginCard: {
     marginHorizontal: 20,
     marginTop: -40,
-    borderRadius: 24,
-    padding: 24,
+    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 8,
   },
   otpContainer: {
     borderWidth: 1,

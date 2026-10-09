@@ -5,5 +5,15 @@ import FormTextInput from './FormTextInput';
 import BiometricPopup from './BiometricPopup';
 import GradientButton from './GradientButton';
 import Accordion from './Accordion';
+import Dropdown from './Dropdown';
 
-export { Container, CreditScoreGauge, TextInput, FormTextInput, BiometricPopup, GradientButton, Accordion };
+export {
+  Container,
+  CreditScoreGauge,
+  TextInput,
+  FormTextInput,
+  BiometricPopup,
+  GradientButton,
+  Accordion,
+  Dropdown,
+};

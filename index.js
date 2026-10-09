@@ -1,11 +1,10 @@
-import { AppRegistry, useColorScheme } from 'react-native';
+import { AppRegistry } from 'react-native';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { PaperProvider } from 'react-native-paper';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { name as appName } from './app.json';
 import { store, persistor } from './src/store';
-import { lightTheme, darkTheme } from './src/theme';
+import { ThemeProvider } from './src/theme/ThemeProvider';
 import App from './App';
 
 if (__DEV__) {
@@ -13,9 +12,6 @@ if (__DEV__) {
 }
 
 const HeadlessCheck = ({ isHeadless }) => {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
-
   if (isHeadless) {
     return null;
   }
@@ -23,11 +19,11 @@ const HeadlessCheck = ({ isHeadless }) => {
   return (
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <PaperProvider theme={theme}>
+        <ThemeProvider>
           {/* <KeyboardProvider> */}
           <App />
           {/* </KeyboardProvider> */}
-        </PaperProvider>
+        </ThemeProvider>
       </PersistGate>
     </ReduxProvider>
   );

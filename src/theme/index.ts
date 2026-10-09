@@ -1,5 +1,6 @@
 import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
-import { MD3Typescale } from 'react-native-paper/lib/typescript/types';
+
+import type { MD3Typescale } from 'react-native-paper/lib/typescript/types';
 
 export const ThemeFonts: MD3Typescale = {
   default: {
@@ -114,117 +115,160 @@ export const ThemeFonts: MD3Typescale = {
   },
 };
 
-const customGradientColors = {
-  mainGradientStart: '#0076D2',
-  mainGradientEnd: '#00B9E5',
+const lightCustomColors = {
+  mainGradientStart: '#0798DE',
+  mainGradientEnd: '#45C4F4',
   buttonGradientStart: '#008FDB',
   buttonGradientEnd: '#55C4FE',
   borderColor: '#DCE6EE',
   cardIconBox: '#CCF1FF',
-  cardShadow: 'rgba(0, 102, 193, 0.35)',
+  cardShadow: 'rgba(0, 102, 193, 0.16)',
+};
+
+const darkCustomColors = {
+  mainGradientStart: '#0798DE',
+  mainGradientEnd: '#45C4F4',
+  buttonGradientStart: '#008FDB',
+  buttonGradientEnd: '#55C4FE',
+  borderColor: '#34465C',
+  cardIconBox: '#163B52',
+  cardShadow: 'rgba(0, 0, 0, 0.32)',
 };
 
 export const lightTheme = {
   ...MD3LightTheme,
-  roundness: 10,
+  dark: false,
+  roundness: 12,
 
   colors: {
     ...MD3LightTheme.colors,
-    primary: 'rgb(2, 149, 219)',
-    onPrimary: 'rgb(255, 255, 255)',
-    primaryContainer: 'rgb(212, 227, 255)',
-    onPrimaryContainer: 'rgb(0, 28, 58)',
-    secondary: 'rgb(84, 95, 113)',
-    onSecondary: 'rgb(255, 255, 255)',
-    secondaryContainer: 'rgb(216, 227, 248)',
-    onSecondaryContainer: 'rgb(17, 28, 43)',
-    tertiary: 'rgb(110, 86, 118)',
-    onTertiary: 'rgb(255, 255, 255)',
-    tertiaryContainer: 'rgb(247, 216, 255)',
-    onTertiaryContainer: 'rgb(39, 20, 48)',
-    error: 'rgb(186, 26, 26)',
-    onError: 'rgb(255, 255, 255)',
-    errorContainer: 'rgb(255, 218, 214)',
-    onErrorContainer: 'rgb(65, 0, 2)',
-    background: 'rgb(238, 245, 250)',
-    onBackground: 'rgb(26, 28, 30)',
-    surface: 'rgb(255, 255, 255)',
-    onSurface: 'rgb(26, 28, 30)',
-    surfaceVariant: 'rgb(224, 226, 236)',
-    onSurfaceVariant: 'rgb(67, 71, 78)',
-    outline: 'rgb(116, 119, 127)',
-    outlineVariant: 'rgb(195, 198, 207)',
-    shadow: 'rgb(0, 0, 0)',
-    scrim: 'rgb(0, 0, 0)',
-    inverseSurface: 'rgb(47, 48, 51)',
-    inverseOnSurface: 'rgb(241, 240, 244)',
-    inversePrimary: 'rgb(165, 200, 255)',
+
+    primary: '#0295DB',
+    onPrimary: '#FFFFFF',
+    primaryContainer: '#D4F0FF',
+    onPrimaryContainer: '#00344D',
+
+    secondary: '#526579',
+    onSecondary: '#FFFFFF',
+    secondaryContainer: '#DCE8F2',
+    onSecondaryContainer: '#192C3B',
+
+    tertiary: '#6E5676',
+    onTertiary: '#FFFFFF',
+    tertiaryContainer: '#F7D8FF',
+    onTertiaryContainer: '#271430',
+
+    error: '#BA1A1A',
+    onError: '#FFFFFF',
+    errorContainer: '#FFDAD6',
+    onErrorContainer: '#410002',
+
+    background: '#F1F6FC',
+    onBackground: '#172033',
+
+    surface: '#FFFFFF',
+    onSurface: '#172033',
+    surfaceVariant: '#E8EEF5',
+    onSurfaceVariant: '#526174',
+
+    outline: '#8292A5',
+    outlineVariant: '#D7E0EA',
+
+    shadow: '#000000',
+    scrim: '#000000',
+    inverseSurface: '#293746',
+    inverseOnSurface: '#F1F5F9',
+    inversePrimary: '#85D1F5',
+
     elevation: {
       level0: 'transparent',
-      level1: 'rgb(240, 244, 251)',
-      level2: 'rgb(233, 239, 249)',
-      level3: 'rgb(225, 235, 246)',
-      level4: 'rgb(223, 233, 245)',
-      level5: 'rgb(218, 230, 244)',
+      level1: '#F8FAFD',
+      level2: '#F2F7FC',
+      level3: '#EAF2FA',
+      level4: '#E7F0F9',
+      level5: '#E1ECF7',
     },
-    surfaceDisabled: 'rgba(26, 28, 30, 0.12)',
-    onSurfaceDisabled: 'rgba(26, 28, 30, 0.38)',
-    backdrop: 'rgba(45, 49, 56, 0.4)',
-    ...customGradientColors,
+
+    surfaceDisabled: 'rgba(23, 32, 51, 0.12)',
+    onSurfaceDisabled: 'rgba(23, 32, 51, 0.38)',
+    backdrop: 'rgba(7, 19, 33, 0.40)',
+
+    ...lightCustomColors,
   },
-  fonts: { ...ThemeFonts },
+
+  fonts: {
+    ...MD3LightTheme.fonts,
+    ...ThemeFonts,
+  },
 };
 
 export const darkTheme = {
   ...MD3DarkTheme,
-  roundness: 10,
+  dark: true,
+  roundness: 12,
 
   colors: {
-    ...MD3LightTheme.colors,
-    primary: 'rgb(4, 14, 26)',
-    onPrimary: 'rgb(0, 49, 95)',
-    primaryContainer: 'rgb(0, 71, 134)',
-    onPrimaryContainer: 'rgb(212, 227, 255)',
-    secondary: 'rgb(188, 199, 220)',
-    onSecondary: 'rgb(39, 49, 65)',
-    secondaryContainer: 'rgb(61, 71, 88)',
-    onSecondaryContainer: 'rgb(216, 227, 248)',
-    tertiary: 'rgb(218, 189, 226)',
-    onTertiary: 'rgb(61, 40, 70)',
-    tertiaryContainer: 'rgb(85, 63, 93)',
-    onTertiaryContainer: 'rgb(247, 216, 255)',
-    error: 'rgb(255, 180, 171)',
-    onError: 'rgb(105, 0, 5)',
-    errorContainer: 'rgb(147, 0, 10)',
-    onErrorContainer: 'rgb(255, 180, 171)',
-    background: 'rgb(4, 14, 26)',
-    onBackground: 'rgb(227, 226, 230)',
-    surface: 'rgb(29, 42, 61)',
-    onSurface: 'rgb(227, 226, 230)',
-    surfaceVariant: 'rgb(67, 71, 78)',
-    onSurfaceVariant: 'rgb(195, 198, 207)',
-    outline: 'rgb(141, 145, 153)',
-    outlineVariant: 'rgb(67, 71, 78)',
-    shadow: 'rgb(0, 0, 0)',
-    scrim: 'rgb(0, 0, 0)',
-    inverseSurface: 'rgb(227, 226, 230)',
-    inverseOnSurface: 'rgb(47, 48, 51)',
-    inversePrimary: 'rgb(0, 95, 175)',
+    ...MD3DarkTheme.colors,
+
+    primary: '#39B9F4',
+    onPrimary: '#00344D',
+    primaryContainer: '#004D70',
+    onPrimaryContainer: '#D4F0FF',
+
+    secondary: '#B8C9D9',
+    onSecondary: '#253747',
+    secondaryContainer: '#394D60',
+    onSecondaryContainer: '#DCE8F2',
+
+    tertiary: '#DABDE2',
+    onTertiary: '#3D2846',
+    tertiaryContainer: '#553F5D',
+    onTertiaryContainer: '#F7D8FF',
+
+    error: '#FFB4AB',
+    onError: '#690005',
+    errorContainer: '#93000A',
+    onErrorContainer: '#FFDAD6',
+
+    background: '#071321',
+    onBackground: '#E6EDF5',
+
+    surface: '#111F30',
+    onSurface: '#E6EDF5',
+    surfaceVariant: '#29394C',
+    onSurfaceVariant: '#C1CDDA',
+
+    outline: '#8D9CAF',
+    outlineVariant: '#3B4B5E',
+
+    shadow: '#000000',
+    scrim: '#000000',
+    inverseSurface: '#E6EDF5',
+    inverseOnSurface: '#293746',
+    inversePrimary: '#006A9B',
+
     elevation: {
       level0: 'transparent',
-      level1: 'rgb(33, 37, 41)',
-      level2: 'rgb(37, 42, 48)',
-      level3: 'rgb(41, 47, 55)',
-      level4: 'rgb(43, 49, 57)',
-      level5: 'rgb(46, 52, 62)',
+      level1: '#152335',
+      level2: '#19283B',
+      level3: '#1D2D42',
+      level4: '#1F3045',
+      level5: '#24354B',
     },
-    surfaceDisabled: 'rgba(227, 226, 230, 0.12)',
-    onSurfaceDisabled: 'rgba(227, 226, 230, 0.38)',
-    backdrop: 'rgba(45, 49, 56, 0.4)',
-    ...customGradientColors,
+
+    surfaceDisabled: 'rgba(230, 237, 245, 0.12)',
+    onSurfaceDisabled: 'rgba(230, 237, 245, 0.38)',
+    backdrop: 'rgba(0, 0, 0, 0.60)',
+
+    ...darkCustomColors,
   },
-  fonts: { ...ThemeFonts },
+
+  fonts: {
+    ...MD3DarkTheme.fonts,
+    ...ThemeFonts,
+  },
 };
 
 export type AppTheme = typeof lightTheme;
+
 export default lightTheme;

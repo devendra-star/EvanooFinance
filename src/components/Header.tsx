@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Text, TouchableRipple, useTheme } from 'react-native-paper';
-import { ArrowLeft, LifeBuoy, User } from 'lucide-react-native';
+import { ArrowLeft, LifeBuoy, User, Sun, Moon } from 'lucide-react-native';
 import { useAppTheme } from '../hook';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 
 const Header: React.FC<Props> = props => {
   const navigation = useNavigation<any>();
-  const { colors } = useAppTheme();
+  const { colors, isDark, toggleTheme } = useAppTheme();
 
   const onLeftIconPress = useCallback(() => {
     if (props.onPressBack) {
@@ -55,12 +55,12 @@ const Header: React.FC<Props> = props => {
             {
               borderColor: colors.borderColor,
               borderWidth: 1,
-              backgroundColor: colors.secondaryContainer,
+              backgroundColor: colors.cardIconBox,
             },
           ]}
           onPress={() => navigation.navigate('Support')}
         >
-          <LifeBuoy size={20} color={colors.onSurface} />
+          <LifeBuoy size={20} color={colors.primary} />
         </TouchableRipple>
       )}
 
@@ -72,17 +72,31 @@ const Header: React.FC<Props> = props => {
         </Text>
       </View>
 
-      {!props.showBackButton ? (
+      <View style={styles.rightContainer}>
         <TouchableRipple
           borderless={true}
-          style={[styles.avatarBtn, { backgroundColor: colors.primary }]}
-          onPress={() => navigation.navigate('Profile')}
+          style={styles.iconBtn}
+          onPress={toggleTheme}
         >
-          <User size={20} color={colors.onPrimary} />
+          {isDark ? (
+            <Sun size={24} color={colors.onSurface} />
+          ) : (
+            <Moon size={24} color={colors.onSurface} />
+          )}
         </TouchableRipple>
-      ) : (
-        <View style={styles.avatarBtn} />
-      )}
+
+        {!props.showBackButton ? (
+          <TouchableRipple
+            borderless={true}
+            style={[styles.avatarBtn, { backgroundColor: colors.cardIconBox }]}
+            onPress={() => navigation.navigate('Profile')}
+          >
+            <User size={20} color={colors.primary} />
+          </TouchableRipple>
+        ) : (
+          <View style={styles.avatarBtn} />
+        )}
+      </View>
     </View>
   );
 };
@@ -114,6 +128,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  rightContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
 });
 

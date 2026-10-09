@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import {
   StyleProp,
   View,
@@ -6,6 +6,7 @@ import {
   TextInput as NativeTextInput,
   TextInputProps,
   StyleSheet,
+  BlurEvent,
 } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useAppTheme } from '../hook';
@@ -23,15 +24,29 @@ export type CustomTextInputProps = TextInputProps & {
 
 type NativeTextInputRef = React.ComponentRef<typeof NativeTextInput>;
 
+type FocusEventType = Parameters<NonNullable<TextInputProps['onFocus']>>[0];
+type BlurEventType = Parameters<NonNullable<TextInputProps['onBlur']>>[0];
+
 const TextInput = forwardRef<NativeTextInputRef, CustomTextInputProps>(
   (props, ref) => {
     const { colors } = useAppTheme();
+    const [isFocus, setFocus] = useState<boolean>(false);
+
+    const _onBlur = (event: BlurEventType) => {
+      setFocus(false);
+      props.onBlur?.(event);
+    };
+
+    const _onFocus = (event: FocusEventType) => {
+      setFocus(true);
+      props.onFocus?.(event);
+    };
 
     return (
       <View style={props.containerStyle}>
         {props.label ? (
           <View style={{ flexDirection: 'row', marginBottom: 2 }}>
-            <Text variant="bodyMedium">{props.label}</Text>
+            <Text variant="titleSmall">{props.label}</Text>
             {props.isMandatory ? (
               <Text
                 variant="bodySmall"
@@ -45,10 +60,9 @@ const TextInput = forwardRef<NativeTextInputRef, CustomTextInputProps>(
         <View
           style={[
             styles.inputWrapper,
-            {
-              backgroundColor: colors.onPrimary,
-              borderColor: props.error ? colors.error : colors.borderColor,
-            },
+            { borderColor: colors.borderColor },
+            isFocus ? { borderColor: colors.primary } : null,
+            props.error ? { borderColor: colors.error } : null,
           ]}
         >
           {props.leftIcon ? (
@@ -71,10 +85,10 @@ const TextInput = forwardRef<NativeTextInputRef, CustomTextInputProps>(
             autoCorrect={false}
             placeholderTextColor={colors.onSurfaceVariant}
             style={[styles.textInput, { color: colors.onSurface }, props.style]}
+            onBlur={_onBlur}
+            onFocus={_onFocus}
           />
-          {props.rightIcon ? (
-            <View >{props.rightIcon}</View>
-          ) : null}
+          {props.rightIcon ? <View>{props.rightIcon}</View> : null}
         </View>
         {props.error ? (
           <Text variant="bodySmall" style={{ color: colors.error }}>

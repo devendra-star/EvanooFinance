@@ -47,8 +47,7 @@ const LoginScreen: React.FC<LoginScreenProps> = props => {
         const result = await dispatch(sendOtp(identifier)).unwrap();
         Alert.alert('OTP', String((result as any)?.data?.otp));
         props.navigation.navigate('OtpVerify', { mobileNumber: identifier });
-      } catch (error: any) {
-      }
+      } catch (error: any) { }
     },
   });
 
@@ -64,11 +63,10 @@ const LoginScreen: React.FC<LoginScreenProps> = props => {
           backgroundColor: colors.background,
         }}
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps='always'
-
+        keyboardShouldPersistTaps="always"
       >
         <LinearGradient
-          colors={['#1DA1F2', '#0295DB']}
+          colors={[colors.buttonGradientStart, colors.buttonGradientEnd]}
           useAngle={true}
           angle={90}
           locations={[0, 1]}
@@ -128,7 +126,7 @@ const LoginScreen: React.FC<LoginScreenProps> = props => {
               onPress={() => formik.handleSubmit()}
               icon={<ArrowRight size={18} color={colors.onPrimary} />}
               iconPosition="right"
-              style={{ marginTop: 10 }}
+              style={{ marginTop: 24 }}
             />
           </View>
           <View style={styles.dividerRow}>
@@ -236,8 +234,9 @@ const styles = StyleSheet.create({
   loginCard: {
     marginHorizontal: 15,
     marginTop: -40,
-    borderRadius: 24,
-    padding: 24,
+    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 8,
   },
   cardHeader: {
     alignItems: 'center',

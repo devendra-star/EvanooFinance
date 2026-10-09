@@ -51,25 +51,25 @@ const CalculatorTabs = ({ activeTab, onTabPress }: CalculatorTabsProps) => {
                 styles.categoryItem,
                 isActive
                   ? {
-                      borderColor: colors.primary,
-                      backgroundColor: colors.background,
-                    }
+                    borderColor: colors.primary,
+                    backgroundColor: colors.background,
+                  }
                   : {
-                      borderColor: colors.borderColor,
-                      backgroundColor: colors.surface,
-                    },
+                    borderColor: colors.borderColor,
+                    backgroundColor: colors.surface,
+                  },
               ]}
               onPress={() => onTabPress(tab.id)}
             >
               <View
                 style={[
                   styles.categoryIconWrap,
-                  isActive && styles.categoryIconWrapActive,
+                  isActive ? { backgroundColor: colors.primary } : { backgroundColor: colors.cardIconBox },
                 ]}
               >
                 <tab.icon
                   size={22}
-                  color={isActive ? colors.surface : colors.primary}
+                  color={isActive ? colors.onPrimary : colors.primary}
                 />
               </View>
               <Text
@@ -117,9 +117,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
-  },
-  categoryIconWrapActive: {
-    backgroundColor: '#0ea5e9',
   },
   categoryText: {
     fontSize: 11,

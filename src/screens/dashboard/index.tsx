@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Container } from '../../components';
 import Header from '../../components/Header';
 import { useAppTheme } from '../../hook';
 import { HomeScreenProps } from '../../navigation/types';
-import { WINDOW_WIDTH } from '../../configs';
 import CreditScore from './components/CreditScore';
 import QuickActions from './components/QuickActions';
 import RecommendedLoans from './components/RecommendedLoans';

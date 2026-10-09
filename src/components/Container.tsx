@@ -4,12 +4,11 @@ import {
   StyleSheet,
   StyleProp,
   ViewStyle,
-  useColorScheme,
 } from 'react-native';
 import { SafeAreaView, Edges } from 'react-native-safe-area-context';
 import { SystemBars, SystemBarStyle } from 'react-native-edge-to-edge';
-import { useTheme } from 'react-native-paper';
 import { WINDOW_WIDTH } from '../configs';
+import { useAppTheme } from '../hook';
 
 type Props = {
   children: React.ReactNode;
@@ -28,17 +27,16 @@ const styles = StyleSheet.create({
 });
 
 const Container: React.FC<Props> = props => {
-  const { colors } = useTheme();
-  const isDarkMode = useColorScheme() === 'dark';
+  const { colors, isDark } = useAppTheme();
 
   return (
     <Fragment>
       <SystemBars
         style={
-          isDarkMode
-            ? 'light'
+          isDark
+            ? 'light' // Always light icons in dark mode
             : typeof props.systemBarStyle === 'undefined'
-              ? 'light'
+              ? 'light' // Default for primary background
               : props.systemBarStyle
         }
       />

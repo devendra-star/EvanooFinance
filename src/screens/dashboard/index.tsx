@@ -15,7 +15,11 @@ const Dashboard: React.FC<HomeScreenProps> = props => {
   const { colors } = useAppTheme();
 
   return (
-    <Container edges={['top', 'left', 'right']} backgroundColor={colors.background} systemBarStyle="dark">
+    <Container
+      edges={['top', 'left', 'right']}
+      backgroundColor={colors.background}
+      systemBarStyle="dark"
+    >
       <Header />
 
       <ScrollView
@@ -25,12 +29,11 @@ const Dashboard: React.FC<HomeScreenProps> = props => {
       >
         <CreditScore />
         <QuickActions />
-        <RecommendedLoans />
-        <RecommendedCreditCards />
+        {/* <RecommendedLoans />
+        <RecommendedCreditCards /> */}
         <SummaryWidgets />
         <UtilizationInsight />
       </ScrollView>
-
     </Container>
   );
 };

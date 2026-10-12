@@ -12,16 +12,16 @@ import EmiService from '../../services/EmiService';
 
 const formatAmount = (val: number) => `₹${val.toLocaleString('en-IN')}`;
 
-const EMICalculator = ({ }: CalcScreenProps) => {
+const EMICalculator = ({}: CalcScreenProps) => {
   const { colors } = useAppTheme();
   const [activeTab, setActiveTab] = useState('emi');
   const [amount, setAmount] = useState(500000);
   const [rate, setRate] = useState(10.5);
   const [tenure, setTenure] = useState(36);
-  
-  const [amountStr, setAmountStr] = useState("500000");
-  const [rateStr, setRateStr] = useState("10.5");
-  const [tenureStr, setTenureStr] = useState("36");
+
+  const [amountStr, setAmountStr] = useState('500000');
+  const [rateStr, setRateStr] = useState('10.5');
+  const [tenureStr, setTenureStr] = useState('36');
 
   useEffect(() => {
     setAmountStr(amount.toString());
@@ -38,7 +38,7 @@ const EMICalculator = ({ }: CalcScreenProps) => {
   const [apiResults, setApiResults] = useState({
     monthlyEmi: 0,
     totalPayment: 0,
-    totalInterest: 0
+    totalInterest: 0,
   });
 
   useEffect(() => {
@@ -47,17 +47,17 @@ const EMICalculator = ({ }: CalcScreenProps) => {
         const responseData = await EmiService.calculateEmi({
           loanAmount: amount,
           interestRate: rate,
-          tenure: tenure
+          tenure: tenure,
         });
         if (responseData?.success && responseData?.data) {
           setApiResults({
             monthlyEmi: responseData.data.monthlyEmi,
             totalPayment: responseData.data.totalPayment,
-            totalInterest: responseData.data.totalInterest
+            totalInterest: responseData.data.totalInterest,
           });
         }
       } catch (error) {
-        console.error("Error calculating EMI:", error);
+        console.error('Error calculating EMI:', error);
       }
     };
 
@@ -69,34 +69,60 @@ const EMICalculator = ({ }: CalcScreenProps) => {
   }, [amount, rate, tenure]);
 
   return (
-    <Container backgroundColor={colors.background} systemBarStyle="dark">
+    <Container
+      edges={['top', 'left', 'right']}
+      backgroundColor={colors.background}
+      systemBarStyle="dark"
+    >
       <Header />
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Icon grid */}
         <CalculatorTabs activeTab={activeTab} onTabPress={setActiveTab} />
-        {/* Calculator card */}
         <Surface
-          style={[styles.calcCard, { backgroundColor: colors.surface }]}
+          style={[
+            styles.calcCard,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.borderColor,
+            },
+          ]}
           elevation={1}
         >
           <Text variant="titleMedium">EMI Calculator</Text>
           {/* Amount */}
           <View style={styles.metricGroup}>
             <View style={styles.metricHeader}>
-              <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant }}>
+              <Text
+                variant="titleSmall"
+                style={{ color: colors.onSurfaceVariant }}
+              >
                 Loan Amount
               </Text>
-              <View style={[styles.inputBox, { borderColor: colors.outlineVariant, backgroundColor: colors.surface }]}>
-                <Text style={[styles.inputPrefix, { color: colors.onSurfaceVariant }]}>₹</Text>
+              <View
+                style={[
+                  styles.inputBox,
+                  {
+                    borderColor: colors.outlineVariant,
+                    backgroundColor: colors.surface,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.inputPrefix,
+                    { color: colors.onSurfaceVariant },
+                  ]}
+                >
+                  ₹
+                </Text>
                 <TextInput
                   style={[styles.input, { color: colors.onSurface }]}
                   value={amountStr}
                   keyboardType="numeric"
-                  onChangeText={(text) => {
+                  onChangeText={text => {
                     setAmountStr(text);
                     const val = parseInt(text.replace(/[^0-9]/g, ''), 10);
                     if (!isNaN(val)) setAmount(val);
@@ -120,21 +146,39 @@ const EMICalculator = ({ }: CalcScreenProps) => {
           {/* Interest Rate */}
           <View style={styles.metricGroup}>
             <View style={styles.metricHeader}>
-              <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant }}>
+              <Text
+                variant="titleSmall"
+                style={{ color: colors.onSurfaceVariant }}
+              >
                 Interest Rate
               </Text>
-              <View style={[styles.inputBox, { borderColor: colors.outlineVariant, backgroundColor: colors.surface }]}>
+              <View
+                style={[
+                  styles.inputBox,
+                  {
+                    borderColor: colors.outlineVariant,
+                    backgroundColor: colors.surface,
+                  },
+                ]}
+              >
                 <TextInput
                   style={[styles.input, { color: colors.onSurface }]}
                   value={rateStr}
                   keyboardType="numeric"
-                  onChangeText={(text) => {
+                  onChangeText={text => {
                     setRateStr(text);
                     const val = parseFloat(text.replace(/[^0-9.]/g, ''));
                     if (!isNaN(val)) setRate(val);
                   }}
                 />
-                <Text style={[styles.inputSuffix, { color: colors.onSurfaceVariant }]}>%</Text>
+                <Text
+                  style={[
+                    styles.inputSuffix,
+                    { color: colors.onSurfaceVariant },
+                  ]}
+                >
+                  %
+                </Text>
               </View>
             </View>
             <Slider
@@ -153,21 +197,39 @@ const EMICalculator = ({ }: CalcScreenProps) => {
           {/* Tenure */}
           <View style={styles.metricGroup}>
             <View style={styles.metricHeader}>
-              <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant }}>
+              <Text
+                variant="titleSmall"
+                style={{ color: colors.onSurfaceVariant }}
+              >
                 Tenure
               </Text>
-              <View style={[styles.inputBox, { borderColor: colors.outlineVariant, backgroundColor: colors.surface }]}>
+              <View
+                style={[
+                  styles.inputBox,
+                  {
+                    borderColor: colors.outlineVariant,
+                    backgroundColor: colors.surface,
+                  },
+                ]}
+              >
                 <TextInput
                   style={[styles.input, { color: colors.onSurface }]}
                   value={tenureStr}
                   keyboardType="numeric"
-                  onChangeText={(text) => {
+                  onChangeText={text => {
                     setTenureStr(text);
                     const val = parseInt(text.replace(/[^0-9]/g, ''), 10);
                     if (!isNaN(val)) setTenure(val);
                   }}
                 />
-                <Text style={[styles.inputSuffix, { color: colors.onSurfaceVariant }]}>mo</Text>
+                <Text
+                  style={[
+                    styles.inputSuffix,
+                    { color: colors.onSurfaceVariant },
+                  ]}
+                >
+                  mo
+                </Text>
               </View>
             </View>
             <Slider
@@ -182,7 +244,11 @@ const EMICalculator = ({ }: CalcScreenProps) => {
               style={styles.slider}
             />
           </View>
-          <ResultCards emi={apiResults.monthlyEmi} interest={apiResults.totalInterest} total={apiResults.totalPayment} />
+          <ResultCards
+            emi={apiResults.monthlyEmi}
+            interest={apiResults.totalInterest}
+            total={apiResults.totalPayment}
+          />
         </Surface>
       </ScrollView>
     </Container>
@@ -196,11 +262,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: 15,
   },
   calcCard: {
     borderRadius: 20,
     padding: 15,
+    borderWidth: 1,
+    marginBottom: 15,
   },
   metricGroup: {
     marginBottom: 10,

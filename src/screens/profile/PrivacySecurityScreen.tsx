@@ -6,12 +6,13 @@ import { View, Text, StyleSheet, Switch, Alert } from 'react-native';
 import { PrivacySecurityScreenProps } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import ReactNativeBiometrics from 'react-native-biometrics';
-import { SecurityService } from '../../store/slices/authSlice';
 
 export default function PrivacySecurityScreen({}: PrivacySecurityScreenProps) {
   const { colors } = useAppTheme();
   const dispatch = useAppDispatch();
-  const isBiometricEnabled = useAppSelector(state => state.auth.isBiometricEnabled);
+  const isBiometricEnabled = useAppSelector(
+    state => state.auth.isBiometricEnabled,
+  );
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
   const rnBiometrics = new ReactNativeBiometrics();
 
@@ -31,20 +32,26 @@ export default function PrivacySecurityScreen({}: PrivacySecurityScreenProps) {
       try {
         const { success } = await rnBiometrics.simplePrompt({
           promptMessage: 'Confirm fingerprint to enable Biometric Login',
-          cancelButtonText: 'Cancel'
+          cancelButtonText: 'Cancel',
         });
 
         if (success) {
-          dispatch({ type: 'auth/setupSecurityPin/fulfilled', payload: { isPinSet: true, isBiometricEnabled: true } });
-          Alert.alert("Success", "Biometric login enabled successfully.");
+          dispatch({
+            type: 'auth/setupSecurityPin/fulfilled',
+            payload: { isPinSet: true, isBiometricEnabled: true },
+          });
+          Alert.alert('Success', 'Biometric login enabled successfully.');
         } else {
-          Alert.alert("Error", "Authentication canceled or failed.");
+          Alert.alert('Error', 'Authentication canceled or failed.');
         }
       } catch (e) {
-        Alert.alert("Error", "Biometric not available.");
+        Alert.alert('Error', 'Biometric not available.');
       }
     } else {
-      dispatch({ type: 'auth/setupSecurityPin/fulfilled', payload: { isPinSet: true, isBiometricEnabled: false } });
+      dispatch({
+        type: 'auth/setupSecurityPin/fulfilled',
+        payload: { isPinSet: true, isBiometricEnabled: false },
+      });
     }
   };
 
@@ -53,10 +60,18 @@ export default function PrivacySecurityScreen({}: PrivacySecurityScreenProps) {
       <Header title="Privacy & Security" showBackButton={true} />
       <View style={styles.container}>
         {isBiometricSupported && (
-          <View style={[styles.settingRow, { backgroundColor: colors.surface }]}>
+          <View
+            style={[styles.settingRow, { backgroundColor: colors.surface }]}
+          >
             <View>
-              <Text style={[styles.settingTitle, { color: colors.onSurface }]}>Biometric Lock</Text>
-              <Text style={[styles.settingDesc, { color: colors.onSurfaceVariant }]}>Use fingerprint to unlock the app</Text>
+              <Text style={[styles.settingTitle, { color: colors.onSurface }]}>
+                Biometric Lock
+              </Text>
+              <Text
+                style={[styles.settingDesc, { color: colors.onSurfaceVariant }]}
+              >
+                Use fingerprint to unlock the app
+              </Text>
             </View>
             <Switch
               value={isBiometricEnabled}
@@ -73,9 +88,9 @@ export default function PrivacySecurityScreen({}: PrivacySecurityScreenProps) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 15 },
-  settingRow: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
+  settingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
     borderRadius: 12,

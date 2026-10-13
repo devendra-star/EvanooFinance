@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Surface } from 'react-native-paper';
+import { Text, Surface, TouchableRipple } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -10,7 +10,7 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import { TrendingUp, ShieldCheck } from 'lucide-react-native';
+import { TrendingUp, ShieldCheck, Sun, Moon } from 'lucide-react-native';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import {
   verifyOtp,
@@ -30,9 +30,8 @@ const validationSchema = Yup.object({
 });
 
 const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
-  const { colors } = useAppTheme();
+  const { colors, isDark, toggleTheme } = useAppTheme();
   const mobileNumber = props.route.params.mobileNumber;
-  // const { mobileNumber } = route.params;
   const dispatch = useAppDispatch();
   const status = useAppSelector(state => state.auth.status);
 
@@ -73,36 +72,50 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
       systemBarStyle="light"
     >
       <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          backgroundColor: colors.background,
-        }}
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps='always'
+        keyboardShouldPersistTaps="always"
       >
         <LinearGradient
-          colors={['#1DA1F2', '#0295DB']}
+          colors={[colors.buttonGradientStart, colors.buttonGradientEnd]}
           useAngle={true}
-          angle={90}
+          angle={180}
           locations={[0, 1]}
           style={styles.headerGradient}
         >
           <View style={styles.logoRow}>
-            <View style={styles.logoCircle}>
-              <TrendingUp size={20} color="#0295DB" strokeWidth={3} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View
+                style={[
+                  styles.logoCircle,
+                  { backgroundColor: colors.background },
+                ]}
+              >
+                <TrendingUp size={20} color={colors.primary} />
+              </View>
+              <Text variant="titleMedium" style={{ color: colors.background }}>
+                {'EVANOO'}
+              </Text>
             </View>
-            <Text variant="titleMedium" style={{ color: colors.surface }}>
-              {'EVANOO'}
-            </Text>
+            <TouchableRipple
+              borderless={true}
+              style={[styles.iconBtn, { backgroundColor: colors.background }]}
+              onPress={toggleTheme}
+            >
+              {isDark ? (
+                <Sun size={24} color={colors.primary} />
+              ) : (
+                <Moon size={24} color={colors.primary} />
+              )}
+            </TouchableRipple>
           </View>
           <Text
             variant="headlineLarge"
-            style={{ color: colors.surface, marginBottom: 8 }}
+            style={{ color: colors.background, marginBottom: 8 }}
           >
             {'Welcome back'}
           </Text>
-          <Text variant="bodyMedium" style={{ color: colors.surface }}>
-            {"Sign in to check your credit score and unlock offers."}
+          <Text variant="bodyMedium" style={{ color: colors.background }}>
+            {'Sign in to check your credit score and unlock offers.'}
           </Text>
         </LinearGradient>
 
@@ -118,13 +131,13 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
               marginBottom: 8,
             }}
           >
-            {"Enter OTP"}
+            {'Enter OTP'}
           </Text>
           <Text
             variant="bodyMedium"
             style={{ color: colors.onSurfaceVariant, marginBottom: 24 }}
           >
-            {"We sent a 6-digit code to your mobile"}
+            {'We sent a 6-digit code to your mobile'}
           </Text>
 
           {/* OTP INPUT FIELD */}
@@ -179,7 +192,6 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
             </Text>
           ) : null}
 
-
           {/* VERIFY BUTTON */}
           <TouchableOpacity
             style={[styles.verifyBtn, { backgroundColor: colors.primary }]}
@@ -200,7 +212,7 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
                 color: colors.primary,
               }}
             >
-              {"Change number"}
+              {'Change number'}
             </Text>
           </TouchableOpacity>
         </Surface>
@@ -230,13 +242,13 @@ const styles = StyleSheet.create({
   logoRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 30,
   },
   logoCircle: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
@@ -245,6 +257,13 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: '800',
     letterSpacing: 1,
+  },
+  iconBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   welcomeText: {
     color: '#FFF',
@@ -256,11 +275,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   loginCard: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     marginTop: -40,
     borderRadius: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 8,
+    padding: 15,
   },
   otpContainer: {
     borderWidth: 1,

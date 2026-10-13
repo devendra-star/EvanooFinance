@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Text, TouchableRipple, useTheme } from 'react-native-paper';
+import { Text, TouchableRipple } from 'react-native-paper';
 import { ArrowLeft, LifeBuoy, User, Sun, Moon } from 'lucide-react-native';
 import { useAppTheme } from '../hook';
 
@@ -65,11 +65,7 @@ const Header: React.FC<Props> = props => {
       )}
 
       <View style={styles.titleContainer}>
-        <Text
-          variant="titleMedium"
-        >
-          {props.title || 'Home'}
-        </Text>
+        <Text variant="titleMedium">{props.title || 'Home'}</Text>
       </View>
 
       <View style={styles.rightContainer}>

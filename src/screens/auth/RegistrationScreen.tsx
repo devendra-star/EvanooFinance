@@ -208,8 +208,8 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = props => {
     try {
       const extra =
         typeof overrides === 'object' &&
-          overrides !== null &&
-          !overrides.nativeEvent
+        overrides !== null &&
+        !overrides.nativeEvent
           ? overrides
           : {};
       const currentValues = { ...formik.values, ...extra };
@@ -226,16 +226,13 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = props => {
   return (
     <Container edges={['left', 'right']}>
       <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          backgroundColor: colors.background,
-        }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="always"
       >
         <LinearGradient
           colors={[colors.buttonGradientStart, colors.buttonGradientEnd]}
           useAngle={true}
-          angle={90}
+          angle={180}
           locations={[0, 1]}
           style={[styles.headerGradient, { paddingTop: insets.top + 20 }]}
         >
@@ -359,7 +356,10 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = props => {
           />
         </Surface>
         <Surface
-          style={[styles.registrationCard, { backgroundColor: colors.surface, marginTop: 15 }]}
+          style={[
+            styles.registrationCard,
+            { backgroundColor: colors.surface, marginTop: 15 },
+          ]}
           elevation={2}
         >
           <Accordion
@@ -572,8 +572,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginTop: -40,
     borderRadius: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 8,
+    padding: 15,
   },
   buttonContainer: {
     paddingHorizontal: 15,

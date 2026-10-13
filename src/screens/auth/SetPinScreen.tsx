@@ -96,22 +96,19 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
       systemBarStyle="light"
     >
       <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          backgroundColor: colors.background,
-        }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="always"
       >
         {/* HEADER GRADIENT */}
         <LinearGradient
-          colors={['#1DA1F2', '#0295DB']}
+          colors={[colors.buttonGradientStart, colors.buttonGradientEnd]}
           useAngle={true}
-          angle={90}
+          angle={180}
           locations={[0, 1]}
           style={styles.headerGradient}
         >
           <Text variant="displaySmall" style={styles.welcomeText}>
-            Secure your app
+            {'Secure your app'}
           </Text>
           <Text variant="bodyLarge" style={styles.subtitleText}>
             {step === 1
@@ -253,11 +250,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   loginCard: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     marginTop: -40,
     borderRadius: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 8,
+    padding: 15,
   },
   otpContainer: {
     borderWidth: 1,

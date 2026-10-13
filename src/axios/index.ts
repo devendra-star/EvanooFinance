@@ -35,6 +35,14 @@ axiosPublic.interceptors.request.use(
 axiosPublic.interceptors.response.use(
   response => response,
   error => {
+    // Suppress alert for refresh token endpoint or 401 unauthorized errors
+    if (
+      error.config?.url?.includes('/auth/refresh') ||
+      error.response?.status === 401
+    ) {
+      return Promise.reject(error);
+    }
+
     let errorMsg = 'Something went wrong';
     if (error.response?.data?.message) {
       errorMsg = error.response.data.message;
@@ -150,6 +158,10 @@ axiosPrivate.interceptors.response.use(
         isRefreshing = false;
       }
     } else {
+      // Do not show alert for 401 (session expired / unauthorized)
+      if (error.response?.status === 401) {
+        return Promise.reject(error);
+      }
       // Handle non-401 errors globally
       let errorMsg = 'Something went wrong';
       if (error.response?.data?.message) {

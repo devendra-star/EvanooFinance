@@ -9,24 +9,19 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Text, Surface, List } from 'react-native-paper';
+import { Text, Surface } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
   User,
   ArrowRight,
-  ChevronDown,
-  ChevronUp,
   Calendar as CalendarIcon,
-  Plus,
-  Minus,
 } from 'lucide-react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { RegistrationScreenProps } from '../../navigation/types';
 import Container from '../../components/Container';
 import { useAppTheme, useAppSelector, useAppDispatch } from '../../hook';
-import { completeLogin } from '../../store/slices/authSlice';
 import TextInput from '../../components/TextInput';
 import GradientButton from '../../components/GradientButton';
 import Accordion from '../../components/Accordion';
@@ -78,7 +73,6 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = props => {
   const identifier = useAppSelector(state => state.auth.mobileNumber);
   const authUserId = useAppSelector(state => state.auth.userId);
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
-  const dispatch = useAppDispatch();
 
   const formik = useFormik<CustomerData>({
     initialValues: {
@@ -208,8 +202,8 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = props => {
     try {
       const extra =
         typeof overrides === 'object' &&
-        overrides !== null &&
-        !overrides.nativeEvent
+          overrides !== null &&
+          !overrides.nativeEvent
           ? overrides
           : {};
       const currentValues = { ...formik.values, ...extra };
@@ -240,22 +234,22 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = props => {
             <View
               style={[
                 styles.logoCircle,
-                { backgroundColor: colors.background },
+                { backgroundColor: colors.onGradientSurface },
               ]}
             >
               <User size={20} color={colors.primary} />
             </View>
-            <Text variant="titleMedium" style={{ color: colors.surface }}>
+            <Text variant="titleMedium" style={{ color: colors.onGradient, marginLeft: 8 }}>
               {'EVANOO'}
             </Text>
           </View>
           <Text
             variant="headlineLarge"
-            style={{ color: colors.surface, marginBottom: 8 }}
+            style={{ color: colors.onGradient, marginBottom: 8 }}
           >
             {'Complete Profile'}
           </Text>
-          <Text variant="bodyMedium" style={{ color: colors.surface }}>
+          <Text variant="bodyMedium" style={{ color: colors.onGradientSubtext }}>
             {'Please fill out your details to continue.'}
           </Text>
         </LinearGradient>

@@ -18,6 +18,7 @@ import RaiseTicketScreen from '../../screens/support/RaiseTicketScreen';
 import FAQsScreen from '../../screens/support/FAQsScreen';
 
 import ProfileScreen from '../../screens/profile/ProfileScreen';
+import EditProfileScreen from '../../screens/profile/EditProfileScreen';
 import ProfileSettingsScreen from '../../screens/profile/ProfileSettingsScreen';
 import NotificationsScreen from '../../screens/profile/NotificationsScreen';
 import PrivacySecurityScreen from '../../screens/profile/PrivacySecurityScreen';
@@ -78,6 +79,7 @@ export default function ProtectedStackNav() {
       <Stack.Screen name="FAQs" component={FAQsScreen} />
       {/* Profile flow */}
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
       <Stack.Screen name="ProfileSettings" component={ProfileSettingsScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name="PrivacySecurity" component={PrivacySecurityScreen} />

@@ -25,10 +25,8 @@ const UtilizationInsight = () => {
           <Sparkles size={16} color={colors.primary} />
         </View>
         <View style={{ flex: 1, marginLeft: 12 }}>
-          <Text variant="bodyMedium">
-            <Text variant="bodyMedium" style={{ fontWeight: '700' }}>
-              {'Your utilization is 28%'}
-            </Text>
+          <Text variant="titleSmall" style={{ color: colors.onSurface }}>
+            Your utilization is 28%
           </Text>
           <Text
             variant="bodySmall"

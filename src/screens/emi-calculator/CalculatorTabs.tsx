@@ -74,7 +74,10 @@ const CalculatorTabs = ({ activeTab, onTabPress }: CalculatorTabsProps) => {
               </View>
               <Text
                 variant="labelSmall"
-                style={{ textAlign: 'center' }}
+                style={{
+                  textAlign: 'center',
+                  color: isActive ? colors.primary : colors.onSurfaceVariant,
+                }}
                 numberOfLines={2}
               >
                 {tab.label}
@@ -105,28 +108,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
   },
-  categoryItemActive: {
-    borderColor: '#0ea5e9',
-    backgroundColor: '#e0f2fe',
-  },
   categoryIconWrap: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#e0f2fe',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
-  },
-  categoryText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#334155',
-    textAlign: 'center',
-    height: 30, // to align texts even if they wrap to 2 lines
-  },
-  categoryTextActive: {
-    color: '#0f172a',
   },
   grid: {
     flexDirection: 'row',

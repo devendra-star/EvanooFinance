@@ -87,35 +87,35 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
               <View
                 style={[
                   styles.logoCircle,
-                  { backgroundColor: colors.background },
+                  { backgroundColor: colors.onGradientSurface },
                 ]}
               >
                 <TrendingUp size={20} color={colors.primary} />
               </View>
-              <Text variant="titleMedium" style={{ color: colors.background }}>
+              <Text variant="titleMedium" style={{ color: colors.onGradient, marginLeft: 8 }}>
                 {'EVANOO'}
               </Text>
             </View>
             <TouchableRipple
               borderless={true}
-              style={[styles.iconBtn, { backgroundColor: colors.background }]}
+              style={[styles.iconBtn, { backgroundColor: colors.onGradientOverlay }]}
               onPress={toggleTheme}
             >
               {isDark ? (
-                <Sun size={24} color={colors.primary} />
+                <Sun size={22} color={colors.onGradient} />
               ) : (
-                <Moon size={24} color={colors.primary} />
+                <Moon size={22} color={colors.onGradient} />
               )}
             </TouchableRipple>
           </View>
           <Text
             variant="headlineLarge"
-            style={{ color: colors.background, marginBottom: 8 }}
+            style={{ color: colors.onGradient, marginBottom: 8 }}
           >
-            {'Welcome back'}
+            {'Verify OTP'}
           </Text>
-          <Text variant="bodyMedium" style={{ color: colors.background }}>
-            {'Sign in to check your credit score and unlock offers.'}
+          <Text variant="bodyMedium" style={{ color: colors.onGradientSubtext }}>
+            {'Enter the 6-digit code sent to your mobile.'}
           </Text>
         </LinearGradient>
 
@@ -167,16 +167,20 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
                 >
                   {symbol ? (
                     <Text
+                      variant="headlineSmall"
                       style={[styles.cellText, { color: colors.onSurface }]}
                     >
                       {symbol}
                     </Text>
                   ) : isFocused ? (
-                    <Text style={[styles.cellText, { color: colors.primary }]}>
+                    <Text
+                      variant="headlineSmall"
+                      style={[styles.cellText, { color: colors.primary }]}
+                    >
                       <Cursor />
                     </Text>
                   ) : (
-                    <View style={styles.dot} />
+                    <View style={[styles.dot, { backgroundColor: colors.outlineVariant }]} />
                   )}
                 </View>
               )}
@@ -198,7 +202,7 @@ const OtpVerifyScreen: React.FC<OtpVerifyScreenProps> = props => {
             onPress={() => formik.handleSubmit()}
             disabled={status === 'loading'}
           >
-            <Text variant="titleMedium" style={styles.verifyBtnText}>
+            <Text variant="titleMedium" style={{ color: colors.onPrimary }}>
               {status === 'loading' ? 'Verifying...' : 'Verify & Continue'}
             </Text>
           </TouchableOpacity>
@@ -253,26 +257,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 10,
   },
-  logoText: {
-    color: '#FFF',
-    fontWeight: '800',
-    letterSpacing: 1,
-  },
   iconBtn: {
     width: 36,
     height: 36,
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  welcomeText: {
-    color: '#FFF',
-    fontWeight: '700',
-    marginBottom: 8,
-  },
-  subtitleText: {
-    color: 'rgba(255, 255, 255, 0.9)',
-    marginBottom: 20,
   },
   loginCard: {
     marginHorizontal: 15,
@@ -298,15 +288,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cellText: {
-    fontSize: 24,
-    fontWeight: '700',
     textAlign: 'center',
   },
   dot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#94A3B8',
   },
   verifyBtn: {
     flexDirection: 'row',
@@ -315,10 +302,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingVertical: 16,
     marginTop: 8,
-  },
-  verifyBtnText: {
-    color: '#FFF',
-    fontWeight: '700',
   },
   footer: {
     flexDirection: 'row',

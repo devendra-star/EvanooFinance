@@ -111,10 +111,11 @@ const EMICalculator = ({}: CalcScreenProps) => {
                 ]}
               >
                 <Text
-                  style={[
-                    styles.inputPrefix,
-                    { color: colors.onSurfaceVariant },
-                  ]}
+                  variant="bodyMedium"
+                  style={{
+                    color: colors.onSurfaceVariant,
+                    marginRight: 4,
+                  }}
                 >
                   ₹
                 </Text>
@@ -172,10 +173,11 @@ const EMICalculator = ({}: CalcScreenProps) => {
                   }}
                 />
                 <Text
-                  style={[
-                    styles.inputSuffix,
-                    { color: colors.onSurfaceVariant },
-                  ]}
+                  variant="bodyMedium"
+                  style={{
+                    color: colors.onSurfaceVariant,
+                    marginLeft: 4,
+                  }}
                 >
                   %
                 </Text>
@@ -223,10 +225,11 @@ const EMICalculator = ({}: CalcScreenProps) => {
                   }}
                 />
                 <Text
-                  style={[
-                    styles.inputSuffix,
-                    { color: colors.onSurfaceVariant },
-                  ]}
+                  variant="bodyMedium"
+                  style={{
+                    color: colors.onSurfaceVariant,
+                    marginLeft: 4,
+                  }}
                 >
                   mo
                 </Text>
@@ -289,20 +292,8 @@ const styles = StyleSheet.create({
     height: 36,
     minWidth: 110,
   },
-  inputPrefix: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginRight: 4,
-  },
-  inputSuffix: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginLeft: 4,
-  },
   input: {
     flex: 1,
-    fontSize: 14,
-    fontWeight: '600',
     textAlign: 'right',
     padding: 0,
     margin: 0,

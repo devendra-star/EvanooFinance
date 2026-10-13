@@ -31,6 +31,7 @@ export type StackParamList = {
   FAQs: undefined;
   // Top-right icon on Home → Profile
   Profile: undefined;
+  EditProfile: { customer?: any } | undefined;
   ProfileSettings: undefined;
   Notifications: undefined;
   PrivacySecurity: undefined;
@@ -95,6 +96,10 @@ export type FAQsScreenProps = NativeStackScreenProps<StackParamList, 'FAQs'>;
 export type ProfileScreenProps = NativeStackScreenProps<
   StackParamList,
   'Profile'
+>;
+export type EditProfileScreenProps = NativeStackScreenProps<
+  StackParamList,
+  'EditProfile'
 >;
 export type ProfileSettingsScreenProps = NativeStackScreenProps<
   StackParamList,

@@ -32,7 +32,10 @@ const FormTextInput: React.FC<FormTextInputProps> = props => {
         <View style={{ flexDirection: 'row' }}>
           <Text variant="bodyMedium">{props.label}</Text>
           {props.isMandatory ? (
-            <Text variant="bodySmall" style={{ marginLeft: 3, fontSize: 14 }}>
+            <Text
+              variant="bodySmall"
+              style={{ marginLeft: 3, color: colors.error }}
+            >
               {'*'}
             </Text>
           ) : null}
@@ -63,7 +66,7 @@ const FormTextInput: React.FC<FormTextInputProps> = props => {
           />
         }
         contentStyle={styles.inputContent}
-        style={[styles.input, { backgroundColor: colors.onPrimary }]}
+        style={[styles.input, { backgroundColor: colors.surface }]}
       />
       {/* Fixed height error slot - hamesha render hoga, chahe error ho ya na ho */}
       {typeof props.errorText === 'undefined' ||

@@ -205,18 +205,25 @@ const AppLockScreen = () => {
                   >
                     {symbol ? (
                       <Text
+                        variant="headlineMedium"
                         style={[styles.cellText, { color: colors.onSurface }]}
                       >
                         *
                       </Text>
                     ) : isFocused ? (
                       <Text
+                        variant="headlineMedium"
                         style={[styles.cellText, { color: colors.primary }]}
                       >
                         <Cursor />
                       </Text>
                     ) : (
-                      <View style={styles.dot} />
+                      <View
+                        style={[
+                          styles.dot,
+                          { backgroundColor: colors.outlineVariant },
+                        ]}
+                      />
                     )}
                   </View>
                 )}
@@ -252,7 +259,10 @@ const AppLockScreen = () => {
                 end={{ x: 1, y: 0 }}
                 style={styles.unlockBtn}
               >
-                <Text variant="labelLarge" style={styles.unlockBtnText}>
+                <Text
+                  variant="labelLarge"
+                  style={{ color: colors.onGradient, letterSpacing: 1 }}
+                >
                   {isSubmitting ? 'Wait...' : 'Unlock'}
                 </Text>
               </LinearGradient>
@@ -304,7 +314,6 @@ const styles = StyleSheet.create({
   brandName: {
     marginTop: 12,
     letterSpacing: 2,
-    fontWeight: 'bold', // Keeping bold for branding
   },
   subBrand: {
     letterSpacing: 4,
@@ -363,15 +372,12 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   cellText: {
-    fontSize: 28,
-    fontWeight: '700',
     textAlign: 'center',
   },
   dot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#94A3B8',
   },
   unlockBtn: {
     paddingVertical: 14,
@@ -380,10 +386,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 200,
-  },
-  unlockBtnText: {
-    color: '#FFFFFF',
-    letterSpacing: 1,
   },
   footer: {
     alignItems: 'center',

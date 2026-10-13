@@ -44,7 +44,7 @@ const Dropdown = (props: DropdownProps) => {
           {props.isMandatory ? (
             <Text
               variant="bodySmall"
-              style={{ marginLeft: 3, fontSize: 14, color: colors.error }}
+              style={{ marginLeft: 3, color: colors.error }}
             >
               {'*'}
             </Text>
@@ -61,7 +61,7 @@ const Dropdown = (props: DropdownProps) => {
         statusBarHeight={0}
         contentStyle={{
           width,
-          backgroundColor: colors.onPrimary,
+          backgroundColor: colors.surface,
           borderRadius: 10,
           paddingVertical: 0,
         }}
@@ -72,7 +72,7 @@ const Dropdown = (props: DropdownProps) => {
             style={[
               styles.box,
               {
-                backgroundColor: colors.onPrimary,
+                backgroundColor: colors.surface,
                 borderColor: props.error
                   ? colors.error
                   : open
@@ -127,10 +127,9 @@ const Dropdown = (props: DropdownProps) => {
               ]}
             >
               <Text
-                variant="bodyMedium"
+                variant={isSelected ? 'titleSmall' : 'bodyMedium'}
                 style={{
                   color: isSelected ? colors.primary : colors.onSurface,
-                  fontWeight: isSelected ? '600' : '400',
                 }}
               >
                 {opt.label}

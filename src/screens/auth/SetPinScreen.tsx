@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Surface } from 'react-native-paper';
-import { ShieldCheck } from 'lucide-react-native';
+import { Text, Surface, TouchableRipple } from 'react-native-paper';
+import { ShieldCheck, TrendingUp, Sun, Moon } from 'lucide-react-native';
 import {
   CodeField,
   Cursor,
@@ -22,7 +22,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const CELL_COUNT = 6;
 
 const SetPinScreen: React.FC<SetPinScreenProps> = props => {
-  const { colors } = useAppTheme();
+  const { colors, isDark, toggleTheme } = useAppTheme();
   const dispatch = useAppDispatch();
   const [step, setStep] = useState<1 | 2>(1);
   const [pin, setPin] = useState('');
@@ -107,10 +107,40 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
           locations={[0, 1]}
           style={styles.headerGradient}
         >
-          <Text variant="displaySmall" style={styles.welcomeText}>
+          <View style={styles.logoRow}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View
+                style={[
+                  styles.logoCircle,
+                  { backgroundColor: colors.onGradientSurface },
+                ]}
+              >
+                <TrendingUp size={20} color={colors.primary} />
+              </View>
+              <Text variant="titleMedium" style={{ color: colors.onGradient, marginLeft: 8 }}>
+                {'EVANOO'}
+              </Text>
+            </View>
+            <TouchableRipple
+              borderless={true}
+              style={[styles.iconBtn, { backgroundColor: colors.onGradientOverlay }]}
+              onPress={toggleTheme}
+            >
+              {isDark ? (
+                <Sun size={22} color={colors.onGradient} />
+              ) : (
+                <Moon size={22} color={colors.onGradient} />
+              )}
+            </TouchableRipple>
+          </View>
+
+          <Text
+            variant="headlineLarge"
+            style={{ color: colors.onGradient, marginBottom: 8 }}
+          >
             {'Secure your app'}
           </Text>
-          <Text variant="bodyLarge" style={styles.subtitleText}>
+          <Text variant="bodyMedium" style={{ color: colors.onGradientSubtext }}>
             {step === 1
               ? 'Create a 6-digit PIN to secure your account.'
               : 'Please confirm your 6-digit PIN.'}
@@ -125,7 +155,6 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
           <Text
             variant="headlineSmall"
             style={{
-              fontWeight: '700',
               color: colors.onSurface,
               marginBottom: 24,
             }}
@@ -160,12 +189,16 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
                 >
                   {symbol ? (
                     <Text
+                      variant="headlineMedium"
                       style={[styles.cellText, { color: colors.onSurface }]}
                     >
                       *
                     </Text>
                   ) : isFocused ? (
-                    <Text style={[styles.cellText, { color: colors.primary }]}>
+                    <Text
+                      variant="headlineMedium"
+                      style={[styles.cellText, { color: colors.primary }]}
+                    >
                       <Cursor />
                     </Text>
                   ) : (
@@ -190,7 +223,7 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
             onPress={handleNext}
             disabled={isSubmitting}
           >
-            <Text variant="titleMedium" style={styles.verifyBtnText}>
+            <Text variant="titleMedium" style={{ color: colors.onPrimary }}>
               {isSubmitting ? 'Saving...' : step === 1 ? 'Next' : 'Confirm'}
             </Text>
           </TouchableOpacity>
@@ -207,7 +240,7 @@ const SetPinScreen: React.FC<SetPinScreenProps> = props => {
             >
               <Text
                 variant="titleSmall"
-                style={{ color: colors.onSurfaceVariant, fontWeight: '600' }}
+                style={{ color: colors.onSurfaceVariant }}
               >
                 Back to Set PIN
               </Text>
@@ -239,15 +272,26 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 80,
   },
-  welcomeText: {
-    color: '#FFF',
-    fontWeight: '700',
-    marginBottom: 8,
-    marginTop: 30,
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 30,
   },
-  subtitleText: {
-    color: 'rgba(255, 255, 255, 0.9)',
-    marginBottom: 20,
+  logoCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  iconBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   loginCard: {
     marginHorizontal: 15,
@@ -275,8 +319,6 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   cellText: {
-    fontSize: 28,
-    fontWeight: '700',
     textAlign: 'center',
   },
   dot: {
@@ -292,10 +334,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingVertical: 16,
     marginTop: 8,
-  },
-  verifyBtnText: {
-    color: '#FFF',
-    fontWeight: '700',
   },
   footer: {
     flexDirection: 'row',

@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
+import { useAppTheme } from '../hook';
 
 interface Props {
   score: number;
@@ -33,6 +35,7 @@ const CreditScoreGauge = ({
   max = 900,
   size = 220,
 }: Props) => {
+  const { colors } = useAppTheme();
   const clamped = Math.max(min, Math.min(max, score));
   const percent = (clamped - min) / (max - min);
   const sweep = percent * 180;
@@ -55,7 +58,7 @@ const CreditScoreGauge = ({
         </Defs>
         <Path
           d={trackPath}
-          stroke="rgba(255,255,255,0.25)"
+          stroke={colors.onGradientOverlay}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           fill="none"
@@ -69,8 +72,12 @@ const CreditScoreGauge = ({
         />
       </Svg>
       <View style={styles.labelBox}>
-        <Text style={styles.scoreText}>{clamped}</Text>
-        <Text style={styles.maxText}>/{max}</Text>
+        <Text variant="displayMedium" style={{ color: colors.onGradient }}>
+          {clamped}
+        </Text>
+        <Text variant="bodySmall" style={{ color: colors.onGradientSubtext }}>
+          /{max}
+        </Text>
       </View>
     </View>
   );
@@ -83,14 +90,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '38%',
     alignItems: 'center',
-  },
-  scoreText: {
-    fontSize: 42,
-    fontWeight: '800',
-    color: '#fff',
-  },
-  maxText: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.8)',
   },
 });

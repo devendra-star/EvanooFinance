@@ -83,14 +83,12 @@ export default function SupportScreen({ navigation }: SupportScreenProps) {
             end={{ x: 1, y: 1 }}
             style={styles.banner}
           >
-            <Text style={[styles.bannerTitle, { color: '#ffffff' }]}>
+            <Text variant="titleMedium" style={{ color: colors.onGradient, marginBottom: 6 }}>
               {"How can we help?"}
             </Text>
             <Text
-              style={[
-                styles.bannerSubtitle,
-                { color: 'rgba(255,255,255,0.85)' },
-              ]}
+              variant="bodySmall"
+              style={{ color: colors.onGradientSubtext }}
             >
               {"Our team responds within 1 hour on chat and WhatsApp."}
             </Text>
@@ -118,7 +116,7 @@ export default function SupportScreen({ navigation }: SupportScreenProps) {
                   {item.icon}
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={[styles.rowTitle, { color: colors.onSurface }]}>
+                  <Text variant="titleSmall" style={{ color: colors.onSurface }}>
                     {item.title}
                   </Text>
                   <Text
@@ -145,12 +143,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   banner: { borderRadius: 18, padding: 20, marginBottom: 16 },
-  bannerTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 6,
-  },
-  bannerSubtitle: { fontSize: 13, lineHeight: 18 },
   list: {
     borderRadius: 16,
     overflow: 'hidden',
@@ -165,5 +157,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 12,
   },
-  rowTitle: { fontWeight: '600' },
 });

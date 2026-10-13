@@ -44,7 +44,7 @@ export default function BiometricPopup({ visible, onComplete }: BiometricPopupPr
         <View style={[styles.iconCircle, { backgroundColor: colors.surfaceVariant }]}>
           <Fingerprint size={48} color={colors.primary} />
         </View>
-        <Text variant="headlineSmall" style={{ fontWeight: '700', marginBottom: 12, textAlign: 'center', color: colors.onSurface }}>
+        <Text variant="headlineSmall" style={{ marginBottom: 12, textAlign: 'center', color: colors.onSurface }}>
           Enable Biometric Login
         </Text>
         <Text variant="bodyMedium" style={{ textAlign: 'center', marginBottom: 32, color: colors.onSurfaceVariant }}>
@@ -55,12 +55,12 @@ export default function BiometricPopup({ visible, onComplete }: BiometricPopupPr
           style={[styles.verifyBtn, { backgroundColor: colors.primary }]}
           onPress={handleEnableBiometric}
         >
-          <Text variant="titleMedium" style={styles.verifyBtnText}>
+          <Text variant="titleMedium" style={{ color: colors.onPrimary }}>
             Enable
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSkipBiometric} style={styles.skipBtn}>
-          <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant, fontWeight: '600' }}>
+          <Text variant="titleSmall" style={{ color: colors.onSurfaceVariant }}>
             Skip for now
           </Text>
         </TouchableOpacity>
@@ -91,10 +91,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingVertical: 16,
     width: '100%',
-  },
-  verifyBtnText: {
-    color: '#FFF',
-    fontWeight: '700',
   },
   skipBtn: {
     marginTop: 24,

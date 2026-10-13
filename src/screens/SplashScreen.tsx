@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     width: WINDOW_WIDTH,
   },
   brandName: {
-    fontWeight: 'bold',
     marginBottom: 10,
   },
   tagline: {

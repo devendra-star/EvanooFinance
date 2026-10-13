@@ -74,34 +74,34 @@ const LoginScreen: React.FC<LoginScreenProps> = props => {
               <View
                 style={[
                   styles.logoCircle,
-                  { backgroundColor: colors.background },
+                  { backgroundColor: colors.onGradientSurface },
                 ]}
               >
                 <TrendingUp size={20} color={colors.primary} />
               </View>
-              <Text variant="titleMedium" style={{ color: colors.background }}>
+              <Text variant="titleMedium" style={{ color: colors.onGradient, marginLeft: 8 }}>
                 {'EVANOO'}
               </Text>
             </View>
             <TouchableRipple
               borderless={true}
-              style={[styles.iconBtn, { backgroundColor: colors.background }]}
+              style={[styles.iconBtn, { backgroundColor: colors.onGradientOverlay }]}
               onPress={toggleTheme}
             >
               {isDark ? (
-                <Sun size={24} color={colors.primary} />
+                <Sun size={22} color={colors.onGradient} />
               ) : (
-                <Moon size={24} color={colors.primary} />
+                <Moon size={22} color={colors.onGradient} />
               )}
             </TouchableRipple>
           </View>
           <Text
             variant="headlineLarge"
-            style={{ color: colors.background, marginBottom: 8 }}
+            style={{ color: colors.onGradient, marginBottom: 8 }}
           >
             {'Welcome back'}
           </Text>
-          <Text variant="bodyMedium" style={{ color: colors.background }}>
+          <Text variant="bodyMedium" style={{ color: colors.onGradientSubtext }}>
             {'Sign in to check your credit score and unlock offers.'}
           </Text>
         </LinearGradient>

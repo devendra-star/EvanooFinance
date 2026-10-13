@@ -22,8 +22,8 @@ const factors = [
   { id: '6', title: 'Enquiries (last 6m)', value: '3', icon: Activity },
 ];
 
-const Score = ({ }: ScoreScreenProps) => {
-  const { colors } = useAppTheme();
+const Score = ({ navigation }: ScoreScreenProps) => {
+  const { colors, isDark } = useAppTheme();
   const [activeBureau, setActiveBureau] = useState(bureaus[0]);
 
   const score = 782;
@@ -34,8 +34,8 @@ const Score = ({ }: ScoreScreenProps) => {
   const strokeDashoffset = circumference - (score / maxScore) * circumference;
 
   return (
-    <Container edges={['top', 'left', 'right']} backgroundColor={colors.background} systemBarStyle="dark">
-      <Header title="Score" />
+    <Container edges={['top', 'left', 'right']} backgroundColor={colors.background}>
+      <Header title="Credit Score" />
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -43,33 +43,50 @@ const Score = ({ }: ScoreScreenProps) => {
       >
         {/* Tab List */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabsContainer}>
-          {bureaus.map((bureau) => (
-            <TouchableOpacity
-              key={bureau}
-              onPress={() => setActiveBureau(bureau)}
-              style={[
-                styles.tabButton,
-                activeBureau === bureau ? styles.tabButtonActive : styles.tabButtonInactive
-              ]}
-            >
-              <Text variant="labelLarge" style={[
-                styles.tabText,
-                activeBureau === bureau ? styles.tabTextActive : styles.tabTextInactive
-              ]}>
-                {bureau}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {bureaus.map((bureau) => {
+            const isActive = activeBureau === bureau;
+            return (
+              <TouchableOpacity
+                key={bureau}
+                onPress={() => setActiveBureau(bureau)}
+                activeOpacity={0.8}
+                style={[
+                  styles.tabButton,
+                  {
+                    backgroundColor: isActive ? colors.primary : colors.surface,
+                    borderColor: isActive ? colors.primary : colors.borderColor,
+                  },
+                ]}
+              >
+                <Text
+                  variant="labelLarge"
+                  style={[
+                    styles.tabText,
+                    {
+                      color: isActive ? colors.onPrimary : colors.onSurface,
+                    },
+                  ]}
+                >
+                  {bureau}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
 
         {/* Score Card */}
         <LinearGradient
-          colors={['#0284c7', '#0ea5e9']}
+          colors={[colors.buttonGradientStart, colors.buttonGradientEnd]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.scoreCard}
         >
-          <Text variant="labelMedium" style={styles.scoreCardTitle}>{activeBureau.toUpperCase()}</Text>
+          <Text
+            variant="labelMedium"
+            style={[styles.scoreCardTitle, { color: colors.onGradientSubtext }]}
+          >
+            {activeBureau.toUpperCase()}
+          </Text>
 
           <View style={styles.gaugeContainer}>
             <Svg width={240} height={120} viewBox="0 0 240 120">
@@ -84,7 +101,7 @@ const Score = ({ }: ScoreScreenProps) => {
               <Path
                 d="M 20 110 A 100 100 0 0 1 220 110"
                 fill="none"
-                stroke="rgba(255,255,255,0.2)"
+                stroke={colors.onGradientOverlay}
                 strokeWidth={16}
                 strokeLinecap="round"
               />
@@ -100,45 +117,76 @@ const Score = ({ }: ScoreScreenProps) => {
               />
             </Svg>
             <View style={styles.gaugeInnerContent}>
-              <Text variant="displayMedium" style={styles.scoreValue}>{score}</Text>
-              <Text variant="labelMedium" style={styles.maxScore}>/ {maxScore}</Text>
-              <View style={styles.ratingBadge}>
-                <Text variant="labelSmall" style={styles.ratingText}>Excellent</Text>
+              <Text variant="displayMedium" style={[styles.scoreValue, { color: colors.onGradient }]}>
+                {score}
+              </Text>
+              <Text variant="labelMedium" style={[styles.maxScore, { color: colors.onGradientSubtext }]}>
+                / {maxScore}
+              </Text>
+              <View style={[styles.ratingBadge, { backgroundColor: colors.onGradientOverlay }]}>
+                <Text variant="labelSmall" style={styles.ratingText}>
+                  Excellent
+                </Text>
               </View>
             </View>
           </View>
 
           <View style={styles.scoreCardFooter}>
-            <View style={styles.footerItem}>
-              <Text variant="labelSmall" style={styles.footerLabel}>BUREAU</Text>
-              <Text variant="titleSmall" style={styles.footerValue}>{activeBureau}</Text>
+            <View style={[styles.footerItem, { backgroundColor: colors.onGradientOverlay }]}>
+              <Text variant="labelSmall" style={[styles.footerLabel, { color: colors.onGradientSubtext }]}>
+                BUREAU
+              </Text>
+              <Text variant="titleSmall" style={[styles.footerValue, { color: colors.onGradient }]}>
+                {activeBureau}
+              </Text>
             </View>
-            <View style={styles.footerItem}>
-              <Text variant="labelSmall" style={styles.footerLabel}>UPDATED</Text>
-              <Text variant="titleSmall" style={styles.footerValue}>12 Jul</Text>
+            <View style={[styles.footerItem, { backgroundColor: colors.onGradientOverlay }]}>
+              <Text variant="labelSmall" style={[styles.footerLabel, { color: colors.onGradientSubtext }]}>
+                UPDATED
+              </Text>
+              <Text variant="titleSmall" style={[styles.footerValue, { color: colors.onGradient }]}>
+                12 Jul
+              </Text>
             </View>
-            <View style={styles.footerItem}>
-              <Text variant="labelSmall" style={styles.footerLabel}>REFRESH</Text>
-              <Text variant="titleSmall" style={styles.footerValue}>11 Aug</Text>
+            <View style={[styles.footerItem, { backgroundColor: colors.onGradientOverlay }]}>
+              <Text variant="labelSmall" style={[styles.footerLabel, { color: colors.onGradientSubtext }]}>
+                REFRESH
+              </Text>
+              <Text variant="titleSmall" style={[styles.footerValue, { color: colors.onGradient }]}>
+                11 Aug
+              </Text>
             </View>
           </View>
         </LinearGradient>
 
         {/* Score History */}
-        <View style={styles.card}>
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.borderColor,
+              shadowColor: colors.shadow,
+            },
+          ]}
+        >
           <View style={styles.cardHeader}>
-            <Text variant="titleMedium" style={styles.cardTitle}>Score history</Text>
-            <View style={styles.trendBadge}>
-              <TrendingUp size={14} color="#10b981" />
-              <Text variant="labelSmall" style={styles.trendText}> +62 in 6m</Text>
+            <Text variant="titleMedium" style={[styles.cardTitle, { color: colors.onSurface }]}>
+              Score history
+            </Text>
+            <View style={[styles.trendBadge, { backgroundColor: colors.successContainer }]}>
+              <TrendingUp size={14} color={colors.success} />
+              <Text variant="labelSmall" style={[styles.trendText, { color: colors.onSuccessContainer }]}>
+                {' '}+62 in 6m
+              </Text>
             </View>
           </View>
           <View style={styles.chartContainer}>
             <Svg width="100%" height={100} viewBox="0 0 300 100" preserveAspectRatio="none">
               <Defs>
                 <SvgLinearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0" stopColor="rgba(14, 165, 233, 0.2)" />
-                  <Stop offset="1" stopColor="rgba(14, 165, 233, 0)" />
+                  <Stop offset="0" stopColor={colors.primary} stopOpacity={0.25} />
+                  <Stop offset="1" stopColor={colors.primary} stopOpacity={0.0} />
                 </SvgLinearGradient>
               </Defs>
               <Path
@@ -148,42 +196,72 @@ const Score = ({ }: ScoreScreenProps) => {
               <Polyline
                 points="0,80 50,70 100,65 150,70 200,55 250,45 300,30"
                 fill="none"
-                stroke="#0ea5e9"
+                stroke={colors.primary}
                 strokeWidth={3}
               />
               {/* Dots */}
-              <Circle cx="50" cy="70" r="4" fill="#0ea5e9" />
-              <Circle cx="100" cy="65" r="4" fill="#0ea5e9" />
-              <Circle cx="150" cy="70" r="4" fill="#0ea5e9" />
-              <Circle cx="200" cy="55" r="4" fill="#0ea5e9" />
-              <Circle cx="250" cy="45" r="4" fill="#0ea5e9" />
-              <Circle cx="300" cy="30" r="4" fill="#0ea5e9" />
+              <Circle cx="50" cy="70" r="4" fill={colors.primary} />
+              <Circle cx="100" cy="65" r="4" fill={colors.primary} />
+              <Circle cx="150" cy="70" r="4" fill={colors.primary} />
+              <Circle cx="200" cy="55" r="4" fill={colors.primary} />
+              <Circle cx="250" cy="45" r="4" fill={colors.primary} />
+              <Circle cx="300" cy="30" r="4" fill={colors.primary} />
             </Svg>
           </View>
         </View>
 
         {/* Factors */}
-        <View style={styles.card}>
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.borderColor,
+              shadowColor: colors.shadow,
+            },
+          ]}
+        >
           {factors.map((factor, index) => {
             const Icon = factor.icon;
             const isLast = index === factors.length - 1;
             return (
-              <TouchableOpacity key={factor.id} style={[styles.factorRow, !isLast && styles.factorRowBorder]}>
-                <View style={styles.factorIconContainer}>
-                  <Icon size={20} color="#0ea5e9" />
+              <TouchableOpacity
+                key={factor.id}
+                activeOpacity={0.7}
+                onPress={() => {
+                  if (factor.id === '1') {
+                    navigation.navigate('PaymentHistory');
+                  }
+                }}
+                style={[
+                  styles.factorRow,
+                  !isLast && [styles.factorRowBorder, { borderBottomColor: colors.borderColor }],
+                ]}
+              >
+                <View style={[styles.factorIconContainer, { backgroundColor: colors.cardIconBox }]}>
+                  <Icon size={20} color={colors.primary} />
                 </View>
-                <Text variant="bodyMedium" style={styles.factorTitle}>{factor.title}</Text>
-                <Text variant="titleSmall" style={styles.factorValue}>{factor.value}</Text>
-                <ChevronRight size={18} color="#94a3b8" />
+                <Text variant="bodyMedium" style={[styles.factorTitle, { color: colors.onSurface }]}>
+                  {factor.title}
+                </Text>
+                <Text variant="titleSmall" style={[styles.factorValue, { color: colors.onSurface }]}>
+                  {factor.value}
+                </Text>
+                <ChevronRight size={18} color={colors.outline} />
               </TouchableOpacity>
             );
           })}
         </View>
 
         {/* Download Button */}
-        <TouchableOpacity style={styles.downloadBtn}>
-          <Download size={20} color="#fff" />
-          <Text variant="labelLarge" style={styles.downloadBtnText}>Download report PDF</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={[styles.downloadBtn, { backgroundColor: colors.primary }]}
+        >
+          <Download size={20} color={colors.onPrimary} />
+          <Text variant="labelLarge" style={[styles.downloadBtnText, { color: colors.onPrimary }]}>
+            Download report PDF
+          </Text>
         </TouchableOpacity>
 
       </ScrollView>
@@ -211,33 +289,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginRight: 10,
   },
-  tabButtonActive: {
-    backgroundColor: '#0ea5e9',
-    borderColor: '#0ea5e9',
-  },
-  tabButtonInactive: {
-    backgroundColor: '#ffffff',
-    borderColor: '#e2e8f0',
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  tabTextActive: {
-    color: '#ffffff',
-  },
-  tabTextInactive: {
-    color: '#475569',
-  },
+  tabText: {},
   scoreCard: {
     borderRadius: 24,
     padding: 24,
     marginBottom: 24,
   },
   scoreCardTitle: {
-    color: '#ffffff',
-    fontSize: 12,
-    fontWeight: '700',
     letterSpacing: 1,
     marginBottom: 20,
   },
@@ -251,19 +309,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30,
   },
-  scoreValue: {
-    fontSize: 48,
-    fontWeight: '800',
-    color: '#ffffff',
-  },
+  scoreValue: {},
   maxScore: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.8)',
-    fontWeight: '500',
     marginTop: -4,
   },
   ratingBadge: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 12,
@@ -271,8 +321,6 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     color: '#86efac',
-    fontSize: 12,
-    fontWeight: '700',
   },
   scoreCardFooter: {
     flexDirection: 'row',
@@ -281,7 +329,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   footerItem: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
     borderRadius: 16,
     paddingVertical: 12,
     paddingHorizontal: 12,
@@ -289,25 +336,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footerLabel: {
-    color: 'rgba(255,255,255,0.7)',
-    fontSize: 10,
-    fontWeight: '700',
     marginBottom: 4,
   },
   footerValue: {
-    color: '#ffffff',
-    fontSize: 12,
-    fontWeight: '700',
     textAlign: 'center',
   },
   card: {
-    backgroundColor: '#ffffff',
     borderRadius: 24,
     padding: 20,
     marginBottom: 24,
     borderWidth: 1,
-    borderColor: '#f1f5f9',
-    shadowColor: '#64748b',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
     shadowRadius: 10,
@@ -319,23 +357,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#0f172a',
-  },
+  cardTitle: {},
   trendBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ecfdf5',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
   },
   trendText: {
-    color: '#10b981',
-    fontSize: 12,
-    fontWeight: '600',
     marginLeft: 2,
   },
   chartContainer: {
@@ -350,31 +380,22 @@ const styles = StyleSheet.create({
   },
   factorRowBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
   },
   factorIconContainer: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f0f9ff',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
   },
   factorTitle: {
     flex: 1,
-    fontSize: 14,
-    color: '#334155',
-    fontWeight: '500',
   },
   factorValue: {
-    fontSize: 14,
-    color: '#0f172a',
-    fontWeight: '700',
     marginRight: 8,
   },
   downloadBtn: {
-    backgroundColor: '#0ea5e9',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -384,9 +405,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   downloadBtnText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '700',
     marginLeft: 8,
   },
 });

@@ -120,9 +120,16 @@ const lightCustomColors = {
   mainGradientEnd: '#45C4F4',
   buttonGradientStart: '#008FDB',
   buttonGradientEnd: '#55C4FE',
+  onGradient: '#FFFFFF',
+  onGradientSubtext: 'rgba(255, 255, 255, 0.9)',
+  onGradientSurface: '#FFFFFF',
+  onGradientOverlay: 'rgba(255, 255, 255, 0.2)',
   borderColor: '#DCE6EE',
   cardIconBox: '#CCF1FF',
   cardShadow: 'rgba(0, 102, 193, 0.16)',
+  success: '#10B981',
+  successContainer: '#ECFDF5',
+  onSuccessContainer: '#047857',
 };
 
 const darkCustomColors = {
@@ -130,9 +137,16 @@ const darkCustomColors = {
   mainGradientEnd: '#45C4F4',
   buttonGradientStart: '#008FDB',
   buttonGradientEnd: '#55C4FE',
+  onGradient: '#FFFFFF',
+  onGradientSubtext: 'rgba(255, 255, 255, 0.9)',
+  onGradientSurface: '#FFFFFF',
+  onGradientOverlay: 'rgba(255, 255, 255, 0.2)',
   borderColor: '#34465C',
   cardIconBox: '#163B52',
   cardShadow: 'rgba(0, 0, 0, 0.32)',
+  success: '#34D399',
+  successContainer: 'rgba(16, 185, 129, 0.15)',
+  onSuccessContainer: '#34D399',
 };
 
 export const lightTheme = {

@@ -141,15 +141,21 @@ export const ForgotPinModal: React.FC<ForgotPinModalProps> = ({ visible, mobileN
                                         onLayout={getCellOnLayoutHandler(index)}
                                     >
                                         {symbol ? (
-                                            <Text style={[styles.cellText, { color: colors.onSurface }]}>
+                                            <Text
+                                                variant="headlineMedium"
+                                                style={[styles.cellText, { color: colors.onSurface }]}
+                                            >
                                                 {step === 'OTP' ? symbol : '*'}
                                             </Text>
                                         ) : isFocused ? (
-                                            <Text style={[styles.cellText, { color: colors.primary }]}>
+                                            <Text
+                                                variant="headlineMedium"
+                                                style={[styles.cellText, { color: colors.primary }]}
+                                            >
                                                 <Cursor />
                                             </Text>
                                         ) : (
-                                            <View style={styles.dot} />
+                                            <View style={[styles.dot, { backgroundColor: colors.outlineVariant }]} />
                                         )}
                                     </View>
                                 )}
@@ -167,7 +173,7 @@ export const ForgotPinModal: React.FC<ForgotPinModalProps> = ({ visible, mobileN
                                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                                 style={styles.unlockBtn}
                             >
-                                <Text variant="labelLarge" style={styles.unlockBtnText}>
+                                <Text variant="labelLarge" style={{ color: colors.onGradient, letterSpacing: 1 }}>
                                     {isSubmitting ? 'Wait...' : (step === 'OTP' ? 'Submit' : 'Next')}
                                 </Text>
                             </LinearGradient>
@@ -194,7 +200,7 @@ const styles = StyleSheet.create({
         alignItems: 'center', marginBottom: 40
     },
     brandName: {
-        marginTop: 12, letterSpacing: 2, fontWeight: 'bold'
+        marginTop: 12, letterSpacing: 2
     },
     pinArea: {
         width: '100%', paddingHorizontal: 40, alignItems: 'center'
@@ -212,15 +218,12 @@ const styles = StyleSheet.create({
         width: 36, height: 40, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderColor: 'transparent'
     },
     cellText: {
-        fontSize: 28, fontWeight: '700', textAlign: 'center'
+        textAlign: 'center'
     },
     dot: {
-        width: 8, height: 8, borderRadius: 4, backgroundColor: '#94A3B8'
+        width: 8, height: 8, borderRadius: 4
     },
     unlockBtn: {
         paddingVertical: 14, paddingHorizontal: 50, borderRadius: 30, alignItems: 'center', justifyContent: 'center', width: 200
-    },
-    unlockBtnText: {
-        color: '#FFFFFF', letterSpacing: 1
     },
 });

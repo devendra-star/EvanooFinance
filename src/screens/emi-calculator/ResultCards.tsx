@@ -24,13 +24,13 @@ const ResultCards = ({ emi, interest, total }: ResultCardsProps) => {
       >
         <Text
           variant="labelSmall"
-          style={{ color: 'rgba(255,255,255,0.85)' }}
+          style={{ color: colors.onPrimary }}
         >
           EMI
         </Text>
         <Text
           variant="titleMedium"
-          style={{ color: colors.surface, fontWeight: '700' }}
+          style={{ color: colors.onPrimary }}
         >
           {formatAmount(Math.round(emi))}
         </Text>
@@ -43,12 +43,13 @@ const ResultCards = ({ emi, interest, total }: ResultCardsProps) => {
       >
         <Text
           variant="labelSmall"
-          style={{ color: colors.onSurfaceVariant }}
+          style={{ color: colors.onPrimaryContainer }}
         >
           INTEREST
         </Text>
         <Text
           variant="titleSmall"
+          style={{ color: colors.onPrimaryContainer }}
         >
           {formatAmount(Math.round(interest))}
         </Text>
@@ -61,12 +62,13 @@ const ResultCards = ({ emi, interest, total }: ResultCardsProps) => {
       >
         <Text
           variant="labelSmall"
-          style={{ color: colors.onSurfaceVariant }}
+          style={{ color: colors.onPrimaryContainer }}
         >
           TOTAL
         </Text>
         <Text
           variant="titleSmall"
+          style={{ color: colors.onPrimaryContainer }}
         >
           {formatAmount(Math.round(total))}
         </Text>

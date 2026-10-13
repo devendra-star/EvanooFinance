@@ -2,7 +2,8 @@ import { Container } from '../../components';
 import Header from '../../components/Header';
 import { useAppTheme } from '../../hook';
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Switch, Alert } from 'react-native';
+import { View, StyleSheet, Switch, Alert } from 'react-native';
+import { Text } from 'react-native-paper';
 import { PrivacySecurityScreenProps } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import ReactNativeBiometrics from 'react-native-biometrics';
@@ -64,11 +65,12 @@ export default function PrivacySecurityScreen({}: PrivacySecurityScreenProps) {
             style={[styles.settingRow, { backgroundColor: colors.surface }]}
           >
             <View>
-              <Text style={[styles.settingTitle, { color: colors.onSurface }]}>
+              <Text variant="titleMedium" style={{ color: colors.onSurface }}>
                 Biometric Lock
               </Text>
               <Text
-                style={[styles.settingDesc, { color: colors.onSurfaceVariant }]}
+                variant="bodySmall"
+                style={{ color: colors.onSurfaceVariant, marginTop: 4 }}
               >
                 Use fingerprint to unlock the app
               </Text>
@@ -76,8 +78,8 @@ export default function PrivacySecurityScreen({}: PrivacySecurityScreenProps) {
             <Switch
               value={isBiometricEnabled}
               onValueChange={toggleBiometric}
-              trackColor={{ false: '#767577', true: colors.primary }}
-              thumbColor={'#f4f3f4'}
+              trackColor={{ false: colors.outlineVariant, true: colors.primary }}
+              thumbColor={colors.surface}
             />
           </View>
         )}
@@ -96,6 +98,4 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 10,
   },
-  settingTitle: { fontSize: 16, fontWeight: '600' },
-  settingDesc: { fontSize: 13, marginTop: 4 },
 });

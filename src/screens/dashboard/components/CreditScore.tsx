@@ -22,19 +22,19 @@ const CreditScore = () => {
     >
       <View style={styles.scoreHeader}>
         <View>
-          <Text variant="labelSmall" style={{ color: colors.background }}>
+          <Text variant="labelSmall" style={{ color: colors.onGradientSubtext }}>
             {'CREDIT SCORE'}
           </Text>
-          <Text variant="titleMedium" style={{ color: colors.background }}>
+          <Text variant="titleMedium" style={{ color: colors.onGradient }}>
             {creditScore.primaryBureau}
           </Text>
         </View>
         {creditScore.isVerified && (
           <View style={styles.verifiedBadge}>
-            <CheckCircle2 size={12} color={colors.background} />
+            <CheckCircle2 size={12} color={colors.onGradient} />
             <Text
               variant="labelSmall"
-              style={{ color: colors.background, marginLeft: 4 }}
+              style={{ color: colors.onGradient, marginLeft: 4 }}
             >
               {'Verified'}
             </Text>
@@ -46,26 +46,26 @@ const CreditScore = () => {
       </View>
       <View style={styles.scoreStatsRow}>
         <View style={styles.statBox}>
-          <Text variant="labelSmall" style={{ color: colors.background }}>
+          <Text variant="labelSmall" style={{ color: colors.onGradientSubtext }}>
             {'RANGE'}
           </Text>
-          <Text variant="bodySmall" style={{ color: colors.background }}>
+          <Text variant="bodySmall" style={{ color: colors.onGradient }}>
             {`${creditScore.minScore}-${creditScore.maxScore}`}
           </Text>
         </View>
         <View style={styles.statBox}>
-          <Text variant="labelSmall" style={{ color: colors.background }}>
+          <Text variant="labelSmall" style={{ color: colors.onGradientSubtext }}>
             {'LAST UPDATED'}
           </Text>
-          <Text variant="bodySmall" style={{ color: colors.background }}>
+          <Text variant="bodySmall" style={{ color: colors.onGradient }}>
             {moment(creditScore.lastUpdatedAt).format('D MMMM')}
           </Text>
         </View>
         <View style={styles.statBox}>
-          <Text variant="labelSmall" style={{ color: colors.background }}>
+          <Text variant="labelSmall" style={{ color: colors.onGradientSubtext }}>
             {'NEXT REFRESH'}
           </Text>
-          <Text variant="bodySmall" style={{ color: colors.background }}>
+          <Text variant="bodySmall" style={{ color: colors.onGradient }}>
             {moment(creditScore.nextRefreshAt).format('D MMMM')}
           </Text>
         </View>
@@ -78,16 +78,17 @@ const CreditScore = () => {
         {creditScore.bureaus.map(bureau => (
           <View
             key={bureau.id}
-            style={
-              bureau.isActive ? styles.bureauActive : styles.bureauInactive
-            }
+            style={[
+              bureau.isActive ? styles.bureauActive : styles.bureauInactive,
+              bureau.isActive && { backgroundColor: colors.onGradientSurface },
+            ]}
           >
             <Text
               variant="labelMedium"
               style={
                 bureau.isActive
                   ? { color: colors.primary }
-                  : { color: colors.background }
+                  : { color: colors.onGradient }
               }
             >
               {bureau.name}
@@ -98,16 +99,16 @@ const CreditScore = () => {
       {freeReportOffer.isEligible && (
         <View style={styles.scoreBanner}>
           <View style={{ flex: 1 }}>
-            <Text variant="labelLarge" style={{ color: colors.background }}>
+            <Text variant="labelLarge" style={{ color: colors.onGradient }}>
               {'First report free'}
             </Text>
-            <Text variant="labelSmall" style={{ color: colors.background }}>
+            <Text variant="labelSmall" style={{ color: colors.onGradientSubtext }}>
               {`After ${freeReportOffer.validAfterDays} days · ${freeReportOffer.bureauName} ₹${freeReportOffer.price}`}
             </Text>
           </View>
           <View style={styles.timerBadge}>
-            <RefreshCw size={12} color="#fff" style={{ marginRight: 4 }} />
-            <Text variant="labelSmall" style={{ color: colors.background }}>
+            <RefreshCw size={12} color={colors.onGradient} style={{ marginRight: 4 }} />
+            <Text variant="labelSmall" style={{ color: colors.onGradient }}>
               {`In ${freeReportOffer.daysRemaining} days`}
             </Text>
           </View>
@@ -162,7 +163,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   bureauActive: {
-    backgroundColor: '#FFF',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,

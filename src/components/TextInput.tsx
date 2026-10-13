@@ -50,7 +50,7 @@ const TextInput = forwardRef<NativeTextInputRef, CustomTextInputProps>(
             {props.isMandatory ? (
               <Text
                 variant="bodySmall"
-                style={{ marginLeft: 3, fontSize: 14, color: colors.error }}
+                style={{ marginLeft: 3, color: colors.error }}
               >
                 {'*'}
               </Text>
@@ -60,7 +60,10 @@ const TextInput = forwardRef<NativeTextInputRef, CustomTextInputProps>(
         <View
           style={[
             styles.inputWrapper,
-            { borderColor: colors.borderColor },
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.borderColor,
+            },
             isFocus ? { borderColor: colors.primary } : null,
             props.error ? { borderColor: colors.error } : null,
           ]}

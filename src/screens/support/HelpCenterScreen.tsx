@@ -2,7 +2,8 @@ import { Container } from '../../components';
 import Header from '../../components/Header';
 import { useAppTheme } from '../../hook';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 import { HelpCenterScreenProps } from '../../navigation/types';
 
 export default function HelpCenterScreen({}: HelpCenterScreenProps) {
@@ -11,13 +12,12 @@ export default function HelpCenterScreen({}: HelpCenterScreenProps) {
     <Container backgroundColor={colors.background} systemBarStyle="dark">
       <Header title="HelpCenter" showBackButton={true} />
       <View style={styles.container}>
-      <Text style={styles.text}>HelpCenter Screen</Text>
-    </View>
+        <Text variant="titleLarge" style={{ color: colors.onSurface }}>HelpCenter Screen</Text>
+      </View>
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center', },
-  text: { fontSize: 18, fontWeight: '600' },
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });
